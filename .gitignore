@@ -1,0 +1,14 @@
+/target
+/bin
+/.settings/
+.project
+.classpath
+/.metadata/
+/.externalToolBuilders
+/sample/
+/.checkstyle
+
+## IntellijIDEA
+.idea/
+*.iml
+*.ipr

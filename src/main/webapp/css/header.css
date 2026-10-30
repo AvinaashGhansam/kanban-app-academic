@@ -1,0 +1,226 @@
+.header {
+    border: 1px silver solid;
+    background: #EEEEEE;
+    display: inline-block;
+    width: 100%;
+}
+
+a.button {
+	text-decoration: none;
+    font: normal 15px verdana, Sans-serif;
+}
+
+.button {
+  border: 1px white solid;
+  margin: 5px;
+  cursor: pointer;
+	float: left;     
+	-webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  background-color: #CCCCCC;
+  font-weight: bold;
+	font-size: 16px;
+	color: black;
+	padding: 4px 20px 7px 20px;
+	border-radius: 5px;
+	border: 1px solid #949494;
+}
+
+
+.button:hover{
+  background-color: #BBBBBB;
+}
+
+.button:active, .button.active{
+  background-color: #AAAAAA;
+}
+
+.listButton {
+    border: 1px white solid;
+    height: 32px;
+    cursor: pointer;
+    list-style-type: none;
+}
+
+ul.nav{
+    display: none;
+    position:relative;
+    z-index: 8;
+    margin: 0;
+    padding: 0;
+    padding-top: 0px;
+    list-style-type: none;
+background-color: #DDDDDD;
+}
+
+.textOnButton {
+    font: normal 15px verdana, Sans-serif;
+}
+
+.user-home {
+    position: absolute;	
+	font: normal 10px verdana, Sans-serif;
+    right: 10px;
+	top: 12px;	
+}
+
+.version {
+    position: absolute;	
+	font: normal 10px verdana, Sans-serif;
+    right: 10px;
+    top: 25px;
+}	
+
+div#chart {
+    background-color: #DDDDDD;
+}
+
+#projectDropdown {
+  font-family: verdana, Sans-serif;
+  font-size: 12px;
+}
+
+.projectPicker {
+  margin: 5px 5px 5px 5px;    
+ }
+
+td.dragHandle {
+	
+}
+
+td.showDragHandle {
+	background-image: url(../images/updown.png);
+	background-repeat: no-repeat;
+	background-position: center center;
+	cursor: move;
+} 
+
+#graph_dropdown{
+  position: absolute;
+  left: 562px;
+  top:67px;
+  z-index: 10000;
+  background-color: #CCC;
+  border: 1px solid #fff;
+  display: block;
+	text-shadow:
+		1px 1px 1px rgba(0,0,0,0.8)
+  	0px -1px 0px rgba(255,255,255,0.2);
+  display: none;
+  	-webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+}
+
+#graph_dropdown a{
+  clear: both;
+  display: block;
+  padding: 7px;
+  font: 16px Arial;
+  cursor: pointer;
+	-webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+}
+
+#graph_dropdown a:hover{
+}
+
+#graph_dropdown img{
+  width: 25px;
+  height: 25px;
+  vertical-align: middle;
+}
+
+table.pet {
+	border-collapse: collapse;
+}
+
+table.pet td,th {
+	border: solid 1px #999999;
+	padding: 2px 5px 2px 5px;
+	
+}
+
+table.nolines td {
+	border: none;
+	padding: 0px;
+}
+
+.main {
+	font: normal 11px verdana, Sans-serif;
+}
+
+.mustHaveOk {
+	background-color: khaki;
+}
+.mustHaveOverWorst {
+	background-color: #ff2222;
+}
+.mustHaveOverAverage {
+	background-color: #ff2222;
+}
+.niceHaveOk {
+	background-color: white;
+}
+.niceHaveOver {
+	background-color: lightgrey;
+}
+td.niceHaveOver {
+	text-decoration: line-through;
+}
+td.mustHaveOverAverage {
+	text-decoration: line-through;
+}
+
+body.welcome {
+	 margin-left: auto; 
+	 margin-right: auto; 
+	 width: 800px;
+	 margin-top: 50px;
+	 margin-bottom: auto;
+	 border: #cccccc solid thin;
+	 padding: 10px 10px 10px 10px;
+}
+
+.main h1 {
+	font-size: 20px;
+	font-weight: bold;
+}
+.main h2 {
+	font-size: 17px;
+	font-weight: bold;
+}
+.main h3 {
+	font-size: 15px;
+	font-weight: bold;
+}
+
+
+.error {
+	font-size: 15px;
+	background-color: yellow;
+	padding: 5px;
+	border-color: red;
+	border-width: thick;
+	border-style: solid;
+}
+
+.item-work-streams {
+	font-size: 10px;
+	font-family: arial;
+	font-weight: bold;
+	background-color: #CCC;
+	color: black;
+	opacity: 0.6;
+}
+
+.journal-entry {
+    width: 500px;
+    margin: 10px 10px 10px 10px;
+}
+
+.journal-text {
+	padding: 3px 3px 3px 3px;
+}
