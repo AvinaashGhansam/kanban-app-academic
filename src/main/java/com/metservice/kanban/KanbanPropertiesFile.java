@@ -1,6 +1,10 @@
 package com.metservice.kanban;
 
 import static java.lang.String.format;
+
+import com.metservice.kanban.model.BoardIdentifier;
+import com.metservice.kanban.model.HtmlColour;
+import com.metservice.kanban.model.WorkItemType;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,16 +17,13 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
-import com.metservice.kanban.model.BoardIdentifier;
-import com.metservice.kanban.model.HtmlColour;
-import com.metservice.kanban.model.WorkItemType;
 
-//TODO This class needs unit tests.
+// TODO This class needs unit tests.
 
 /**
  * Reads and parses a project's .properties file and builds the project
  * configuration and layout.
- * 
+ *
  * @author Janella Espinas, Chris Cooper
  */
 public class KanbanPropertiesFile {
@@ -72,7 +73,7 @@ public class KanbanPropertiesFile {
 
     /**
      * Returns the phases of the project for the wall.
-     * 
+     *
      * @param boardType
      * @return
      * @throws IOException
@@ -84,7 +85,7 @@ public class KanbanPropertiesFile {
 
     /**
      * Returns the phases for a particular workItemType (eg, feature, story).
-     * 
+     *
      * @param workItemType
      * @return
      * @throws IOException
@@ -96,7 +97,7 @@ public class KanbanPropertiesFile {
 
     /**
      * Returns the WIP limits for phases
-     * 
+     *
      * @param boardType
      * @return
      * @throws IOException
@@ -128,7 +129,7 @@ public class KanbanPropertiesFile {
     /**
      * Gets the value of a given propertyKey from the values in the property
      * map.
-     * 
+     *
      * @param propertyKey
      * @return
      * @throws IOException
@@ -153,14 +154,11 @@ public class KanbanPropertiesFile {
     }
 
     public void setColumnWipLimit(WorkItemType workItemType, String columnName, Integer wipLimit) throws IOException {
-        
-        LOGGER.info("Setting WIP limit for column {}.{} to {}",
-            new Object[] {
-                workItemType.toString(),
-                columnName,
-                wipLimit
-            });
-        
+
+        LOGGER.info(
+                "Setting WIP limit for column {}.{} to {}",
+                new Object[] {workItemType.toString(), columnName, wipLimit});
+
         String[] phases = getPhases(workItemType.toString());
         String[] wipLimits = getCommaSeparatedStrings("workItemTypes." + workItemType + ".wipLimit");
         if (wipLimits == null) {
@@ -182,16 +180,15 @@ public class KanbanPropertiesFile {
         }
         String wipLimitsStr = StringUtils.join(wipLimits, ",");
         properties.put(String.format("workItemTypes.%s.wipLimit", workItemType.getName()), wipLimitsStr);
-        
+
         storeProperties();
     }
 
     public void renameColumn(WorkItemType workItemType, String columnName, String newColumnName) throws IOException {
-        LOGGER.info("Renaming column for WorkItem {} from {} to {} in properties file", new Object[] {
-            workItemType,
-            columnName,
-            newColumnName});
-        
+        LOGGER.info(
+                "Renaming column for WorkItem {} from {} to {} in properties file",
+                new Object[] {workItemType, columnName, newColumnName});
+
         boolean columnFound = false;
 
         String[] phases = getCommaSeparatedStrings(String.format("workItemTypes.%s.phases", workItemType.getName()));
@@ -207,13 +204,13 @@ public class KanbanPropertiesFile {
 
         String newPhases = StringUtils.join(phases, ",");
         properties.put(String.format("workItemTypes.%s.phases", workItemType.getName()), newPhases);
-        
+
         String[] boardPhases = getCommaSeparatedStrings("boards.wall");
 
         for (int i = 0; i < boardPhases.length; i++) {
-                if (boardPhases[i].equals(columnName)) {
-                    boardPhases[i] = newColumnName;
-                }
+            if (boardPhases[i].equals(columnName)) {
+                boardPhases[i] = newColumnName;
+            }
         }
         String newboardPhases = StringUtils.join(boardPhases, ",");
         properties.put("boards.wall", newboardPhases);

@@ -1,6 +1,14 @@
 package com.metservice.kanban.charts.cumulativeflow;
 
 import static com.metservice.kanban.utils.DateUtils.currentLocalDate;
+
+import com.metservice.kanban.charts.ChartUtils;
+import com.metservice.kanban.charts.KanbanDrawingSupplier;
+import com.metservice.kanban.model.KanbanJournalItem;
+import com.metservice.kanban.model.KanbanProject;
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.utils.Day;
+import com.metservice.kanban.utils.WorkingDayUtils;
 import java.awt.Color;
 import java.io.IOException;
 import java.util.List;
@@ -17,13 +25,6 @@ import org.jfree.data.general.DatasetUtilities;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.metservice.kanban.charts.ChartUtils;
-import com.metservice.kanban.charts.KanbanDrawingSupplier;
-import com.metservice.kanban.model.KanbanJournalItem;
-import com.metservice.kanban.model.KanbanProject;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.utils.Day;
-import com.metservice.kanban.utils.WorkingDayUtils;
 
 public class CumulativeFlowChartBuilder {
 
@@ -73,15 +74,14 @@ public class CumulativeFlowChartBuilder {
     public JFreeChart createChart(CategoryDataset dataset, KanbanProject project) {
 
         JFreeChart chart = ChartFactory.createStackedAreaChart(
-            "Cumulative Flow Chart", // chart title
-            "", // domain axis label
-            "", // range axis label
-            dataset, // data
-            PlotOrientation.VERTICAL, // orientation
-            true, // include legend
-            true,
-            false
-            );
+                "Cumulative Flow Chart", // chart title
+                "", // domain axis label
+                "", // range axis label
+                dataset, // data
+                PlotOrientation.VERTICAL, // orientation
+                true, // include legend
+                true,
+                false);
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot();
 
@@ -92,8 +92,12 @@ public class CumulativeFlowChartBuilder {
         plot.setRangeGridlinePaint(Color.GRAY);
         plot.setDrawingSupplier(new KanbanDrawingSupplier(dataset.getRowCount()));
 
-        insertJournalEntries(dataset, project, plot, ((Day) dataset.getColumnKey(0)).getDate(),
-            ((Day) dataset.getColumnKey(dataset.getColumnCount() - 1)).getDate());
+        insertJournalEntries(
+                dataset,
+                project,
+                plot,
+                ((Day) dataset.getColumnKey(0)).getDate(),
+                ((Day) dataset.getColumnKey(dataset.getColumnCount() - 1)).getDate());
 
         final CategoryAxis domainAxis = plot.getDomainAxis();
         domainAxis.setLowerMargin(0.0);
@@ -109,14 +113,15 @@ public class CumulativeFlowChartBuilder {
         return chart;
     }
 
-    public static void insertJournalEntries(CategoryDataset dataset, KanbanProject project, CategoryPlot plot,
-                                            LocalDate startDate, LocalDate endDate) {
+    public static void insertJournalEntries(
+            CategoryDataset dataset, KanbanProject project, CategoryPlot plot, LocalDate startDate, LocalDate endDate) {
         for (KanbanJournalItem journalItem : project.getJournal()) {
             // check if the item is visible on the chart
             if (!journalItem.getDate().toLocalDate().isBefore(startDate)
-                && !journalItem.getDate().toLocalDate().isAfter(endDate)) {
+                    && !journalItem.getDate().toLocalDate().isAfter(endDate)) {
 
-                int columnId = WorkingDayUtils.getWorkingDaysBetween(startDate, journalItem.getDate().toLocalDate());
+                int columnId = WorkingDayUtils.getWorkingDaysBetween(
+                        startDate, journalItem.getDate().toLocalDate());
 
                 if (columnId < dataset.getColumnCount()) {
                     String text;
@@ -131,14 +136,16 @@ public class CumulativeFlowChartBuilder {
                         yValue += dataset.getValue(i, columnId).intValue();
                     }
 
-                    CategoryPointerAnnotation annotation = new CategoryPointerAnnotation(text,
-                        dataset.getColumnKey(columnId), yValue, 30);
+                    CategoryPointerAnnotation annotation =
+                            new CategoryPointerAnnotation(text, dataset.getColumnKey(columnId), yValue, 30);
                     annotation.setBaseRadius(30);
                     annotation.setLabelOffset(7);
                     plot.addAnnotation(annotation);
                 } else {
-                    LOGGER.warn("Cannot display journal entry {} for day {}, not sure why", journalItem.getText(),
-                        journalItem.getDate());
+                    LOGGER.warn(
+                            "Cannot display journal entry {} for day {}, not sure why",
+                            journalItem.getText(),
+                            journalItem.getDate());
                 }
             }
         }
@@ -152,5 +159,4 @@ public class CumulativeFlowChartBuilder {
         }
         return days;
     }
-
 }

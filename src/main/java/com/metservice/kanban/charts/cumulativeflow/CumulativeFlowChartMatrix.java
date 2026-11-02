@@ -1,5 +1,7 @@
 package com.metservice.kanban.charts.cumulativeflow;
 
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.utils.WorkingDayUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -7,15 +9,12 @@ import java.util.List;
 import java.util.Map;
 import org.joda.time.LocalDate;
 
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.utils.WorkingDayUtils;
-
 public class CumulativeFlowChartMatrix {
 
     private Map<LocalDate, Map<String, Integer>> map;
     private List<String> phases;
-	private LocalDate startDate;
-	private LocalDate endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     // add start date and end date instead of "reference date" here
     public CumulativeFlowChartMatrix(List<String> phases, LocalDate startDate, LocalDate endDate) {
@@ -29,7 +28,7 @@ public class CumulativeFlowChartMatrix {
         if (workItem.isExcluded()) {
             return;
         }
-        
+
         String phase = phases.get(0);
         LocalDate localDate = workItem.getDate(phase);
         while (!localDate.isAfter(endDate)) {
@@ -69,7 +68,7 @@ public class CumulativeFlowChartMatrix {
         if (phaseIntegerMap == null) {
             return 0;
         }
-        
+
         Integer result = phaseIntegerMap.get(phase);
         return result == null ? 0 : result;
     }
@@ -99,11 +98,10 @@ public class CumulativeFlowChartMatrix {
         int startIndex = dates.indexOf(startDateCorrected) == -1 ? 0 : dates.indexOf(startDateCorrected);
         int endIndex = dates.indexOf(endDateCorrected) == -1 ? dates.size() : dates.indexOf(endDateCorrected) + 1;
         if (endIndex > dates.size()) {
-        	endIndex = dates.size();
+            endIndex = dates.size();
         }
         dates = dates.subList(startIndex, endIndex);
 
         return dates;
     }
-
 }

@@ -1,9 +1,9 @@
 package com.metservice.kanban.jsptags;
 
+import com.metservice.kanban.model.WorkItem;
 import java.io.IOException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
-import com.metservice.kanban.model.WorkItem;
 
 public class WorkStreamsInfoTag extends TagSupport {
 
@@ -36,5 +36,4 @@ public class WorkStreamsInfoTag extends TagSupport {
     public void setCssClass(String cssClass) {
         this.cssClass = cssClass;
     }
-
 }

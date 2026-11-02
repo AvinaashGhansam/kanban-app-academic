@@ -1,12 +1,12 @@
 package com.metservice.kanban.csv;
 
+import au.com.bytecode.opencsv.CSVReader;
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.model.WorkItemType;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
-import au.com.bytecode.opencsv.CSVReader;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.model.WorkItemType;
 
 public class KanbanCsvReader {
 

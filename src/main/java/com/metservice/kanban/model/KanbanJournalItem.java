@@ -1,8 +1,7 @@
 package com.metservice.kanban.model;
 
-import org.joda.time.LocalDateTime;
 import com.metservice.kanban.utils.DateUtils;
-
+import org.joda.time.LocalDateTime;
 
 public class KanbanJournalItem implements Comparable<KanbanJournalItem> {
 
@@ -21,7 +20,6 @@ public class KanbanJournalItem implements Comparable<KanbanJournalItem> {
         this.date = LocalDateTime.parse(date);
         this.userName = userName;
     }
-
 
     public LocalDateTime getDate() {
         return date;
@@ -64,5 +62,4 @@ public class KanbanJournalItem implements Comparable<KanbanJournalItem> {
 
         return -date.compareTo(o.date);
     }
-
 }

@@ -13,12 +13,13 @@ import static com.metservice.kanban.csv.CsvConstants.STOPPED_COLUMN_NAME;
 import static com.metservice.kanban.csv.CsvConstants.WORK_STREAMS;
 import static com.metservice.kanban.csv.CsvConstants.WORST_CASE_ESIMATE;
 import static com.metservice.kanban.utils.DateUtils.formatIsoDate;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
+
 import au.com.bytecode.opencsv.CSVWriter;
 import com.metservice.kanban.model.WorkItem;
 import com.metservice.kanban.model.WorkItemType;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
 
 public class KanbanCsvWriter {
 
@@ -26,7 +27,7 @@ public class KanbanCsvWriter {
 
     private final CSVWriter csvWriter;
     private final List<String> phases;
-    
+
     public KanbanCsvWriter(Writer writer, WorkItemType workItemType) {
         this.csvWriter = new CSVWriter(writer);
         this.phases = workItemType.getPhases();

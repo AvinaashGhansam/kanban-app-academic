@@ -1,12 +1,12 @@
 package com.metservice.kanban.jsptags;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.TagSupport;
 import com.metservice.kanban.charts.KanbanDrawingSupplier;
 import com.metservice.kanban.model.HtmlColour;
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.TagSupport;
 
 public class HtmlColoursTag extends TagSupport {
-    
+
     private static final long serialVersionUID = 5324821807282824000L;
 
     private String name;
@@ -36,5 +36,4 @@ public class HtmlColoursTag extends TagSupport {
     public void setSeries(int series) {
         this.series = series;
     }
-
 }

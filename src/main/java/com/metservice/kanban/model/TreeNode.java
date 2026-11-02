@@ -1,6 +1,7 @@
 package com.metservice.kanban.model;
 
 import static java.util.Arrays.asList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -29,7 +30,7 @@ public class TreeNode<T> {
         this.children = cloneArray(valueClass, children);
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private TreeNode<T>[] cloneArray(Class<T> valueClass, TreeNode<?>[] newChildren) {
         TreeNode[] clonedChildren = new TreeNode[newChildren.length];
 

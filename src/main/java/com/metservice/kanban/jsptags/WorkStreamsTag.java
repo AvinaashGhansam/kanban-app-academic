@@ -1,13 +1,13 @@
 package com.metservice.kanban.jsptags;
 
+import com.metservice.kanban.model.KanbanProject;
+import com.metservice.kanban.model.WorkItem;
 import java.io.IOException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.metservice.kanban.model.KanbanProject;
-import com.metservice.kanban.model.WorkItem;
 
 public class WorkStreamsTag extends TagSupport {
 
@@ -50,15 +50,16 @@ public class WorkStreamsTag extends TagSupport {
 
                 pageContext.getOut().write("'' ];\n");
 
-                pageContext.getOut().write(
-                    "       $(function() {\n"
-                        + "               $('#workStreams').tagit({\n"
-                        + "                       tagSource   : workStreams,\n"
-                        + "                       triggerKeys : [ 'enter', 'comma' ],\n"
-                        + "                       initialTags : [ " + initialTags + " ],\n"
-                        + "                       select: true"
-                        + "               });\n"
-                        + "        });\n");
+                pageContext
+                        .getOut()
+                        .write("       $(function() {\n"
+                                + "               $('#workStreams').tagit({\n"
+                                + "                       tagSource   : workStreams,\n"
+                                + "                       triggerKeys : [ 'enter', 'comma' ],\n"
+                                + "                       initialTags : [ " + initialTags + " ],\n"
+                                + "                       select: true"
+                                + "               });\n"
+                                + "        });\n");
 
             } else {
                 pageContext.getOut().write("ERROR: Project is not set.");

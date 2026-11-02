@@ -1,5 +1,6 @@
 package com.metservice.kanban.web;
 
+import com.metservice.kanban.KanbanService;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.RedirectView;
-import com.metservice.kanban.KanbanService;
 
 /**
  * Controller for managing a project's file directories.
@@ -24,8 +24,7 @@ public class KanbanHomeController {
     /**
      * Default constructor for KanbanHomeController. Initialises its own KanbanService.
      */
-    public KanbanHomeController() {
-    }
+    public KanbanHomeController() {}
 
     /**
      * Creating the directory and files for the Sample Kanban Project.
@@ -43,9 +42,10 @@ public class KanbanHomeController {
 
         // initialises the .properties file
         File sampleProjectConfiguration = new File(sampleProject, "kanban.properties");
-        IOUtils.copy(KanbanHomeController.class.getResourceAsStream("/sample-kanban.properties"),
-            new FileOutputStream(sampleProjectConfiguration));
-        
+        IOUtils.copy(
+                KanbanHomeController.class.getResourceAsStream("/sample-kanban.properties"),
+                new FileOutputStream(sampleProjectConfiguration));
+
         return new RedirectView("/", true);
     }
 }

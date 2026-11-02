@@ -1,10 +1,10 @@
 package com.metservice.kanban.charts.burnup;
 
+import com.google.gson.internal.Pair;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.joda.time.LocalDate;
-import com.google.gson.internal.Pair;
 
 public class EstimatesBurnDownDatasetGenerator {
 
@@ -37,5 +37,4 @@ public class EstimatesBurnDownDatasetGenerator {
 
         return dataset;
     }
-
 }

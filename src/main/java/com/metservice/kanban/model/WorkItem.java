@@ -1,6 +1,10 @@
 package com.metservice.kanban.model;
 
 import static com.metservice.kanban.utils.DateUtils.parseIsoDate;
+
+import com.google.common.base.Preconditions;
+import com.metservice.kanban.utils.DateUtils;
+import com.metservice.kanban.utils.WorkingDayUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,9 +14,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import com.google.common.base.Preconditions;
-import com.metservice.kanban.utils.DateUtils;
-import com.metservice.kanban.utils.WorkingDayUtils;
 
 /**
  * A work item is a story. It can have a parent.
@@ -36,10 +37,10 @@ public class WorkItem {
     private int importance;
     private String notes;
     private boolean excluded;
-    private boolean blocked; //Whether a story is allowed to progress regardless of stage
+    private boolean blocked; // Whether a story is allowed to progress regardless of stage
     private HtmlColour colour;
 
-    //Keep track of when this item started a phase
+    // Keep track of when this item started a phase
     private final Map<String, LocalDate> datesByPhase = new HashMap<String, LocalDate>();
     private String currentPhase;
 
@@ -146,7 +147,7 @@ public class WorkItem {
     public String getQuickOverview() {
         StringBuilder overview = new StringBuilder();
 
-        overview.append("Importance : "). append(getImportance()).append(NEWLINE);
+        overview.append("Importance : ").append(getImportance()).append(NEWLINE);
 
         overview.append("Streams : ");
         if (getWorkStreams().isEmpty()) {
@@ -159,15 +160,12 @@ public class WorkItem {
         overview.append(NEWLINE);
 
         final String notes = getNotes();
-        overview.append("Notes : ").append(
-                (notes != null ? notes : NO_ITEM)
-        ).append(NEWLINE);
-
+        overview.append("Notes : ").append((notes != null ? notes : NO_ITEM)).append(NEWLINE);
 
         final String lastComment = getLastComment();
-        overview.append("Last comment : ").append(
-                "".equals(lastComment) ? NO_ITEM : lastComment
-        ).append(NEWLINE);
+        overview.append("Last comment : ")
+                .append("".equals(lastComment) ? NO_ITEM : lastComment)
+                .append(NEWLINE);
 
         return overview.toString();
     }
@@ -183,13 +181,14 @@ public class WorkItem {
             return "";
         }
         return lastComment.getCommentText() + " [" + lastComment.getAddedBy() + " @ "
-            + lastComment.getWhenAdded().toString(DateUtils.DATE_FORMAT_STR) + "]";
+                + lastComment.getWhenAdded().toString(DateUtils.DATE_FORMAT_STR) + "]";
     }
 
     public String getLastBlockedComment() {
         WorkItemComment lastComment = null;
         for (WorkItemComment c : getComments()) {
-            if (isBlockedComment(c) && (lastComment == null || lastComment.getWhenAdded().isBefore(c.getWhenAdded()))) {
+            if (isBlockedComment(c)
+                    && (lastComment == null || lastComment.getWhenAdded().isBefore(c.getWhenAdded()))) {
                 lastComment = c;
             }
         }
@@ -217,7 +216,7 @@ public class WorkItem {
     }
 
     public void setBlocked(boolean blocked) {
-    	this.blocked = blocked;
+        this.blocked = blocked;
     }
 
     public String getCurrentPhase() {
@@ -291,7 +290,7 @@ public class WorkItem {
             previousDate = date;
             previousPhase = phase;
         }
-        //Last item will always have a duration between it's start date and now.
+        // Last item will always have a duration between it's start date and now.
         if (previousDate != null && previousPhase != null) {
             int diffInDays = WorkingDayUtils.getWorkingDaysBetween(previousDate, today);
             phaseDurations.put(previousPhase, diffInDays);
@@ -303,7 +302,9 @@ public class WorkItem {
     private LocalDate fillMissingPhaseDates(LocalDate previousDate) {
         // fill missing dates before current phase
         String newCurrentPhase = determineCurrentPhase();
-        for (ListIterator<String> i = getType().getPhases().listIterator(getType().getPhases().size()); i.hasPrevious();) {
+        for (ListIterator<String> i =
+                        getType().getPhases().listIterator(getType().getPhases().size());
+                i.hasPrevious(); ) {
 
             String phase = i.previous();
 
@@ -317,8 +318,6 @@ public class WorkItem {
         return previousDate;
     }
 
-
-
     private String determineCurrentPhase() {
         String newCurrentPhase = null;
         for (String phase : type.getPhases()) {
@@ -330,11 +329,11 @@ public class WorkItem {
     }
 
     public boolean isCompleted() {
-    	return !type.hasPhaseAfter(currentPhase);
+        return !type.hasPhaseAfter(currentPhase);
     }
 
     public boolean isBlocked() {
-    	return blocked;
+        return blocked;
     }
 
     public void stop() {
@@ -349,7 +348,7 @@ public class WorkItem {
         if (!type.hasPhaseAfter(currentPhase)) {
             throw new IllegalStateException(this + " cannot advance: it is already in its final phase");
         }
-        //Set the start date of the next phase to date
+        // Set the start date of the next phase to date
         setDate(type.getPhaseAfter(currentPhase), date);
     }
 

@@ -32,7 +32,7 @@ public class CsvColumnNames {
         }
         return false;
     }
-    
+
     public int size() {
         return columnNames.length;
     }

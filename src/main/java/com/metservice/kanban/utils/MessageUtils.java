@@ -5,7 +5,7 @@ public class MessageUtils {
         return c + str + c;
     }
 
-    public static String decorateSingleQuotes( String s ) {
+    public static String decorateSingleQuotes(String s) {
         return decorateWithChar('\'', s);
     }
 }

@@ -1,5 +1,9 @@
 package com.metservice.kanban;
 
+import com.google.common.base.Preconditions;
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.model.WorkItemComment;
+import com.metservice.kanban.model.WorkItemTree;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -10,10 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
-import com.google.common.base.Preconditions;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.model.WorkItemComment;
-import com.metservice.kanban.model.WorkItemTree;
 
 // TODO This class needs unit tests.
 public class KanbanCommentsFile {
@@ -60,9 +60,9 @@ public class KanbanCommentsFile {
     }
 
     public List<WorkItemComment> getCommentsFor(int id) {
-        Preconditions.checkState(completeCommentsList != null,
+        Preconditions.checkState(
+                completeCommentsList != null,
                 "Can not get comments before reading them for the first time.  Call readAllComments() first.");
         return completeCommentsList.get(id);
     }
-
 }
