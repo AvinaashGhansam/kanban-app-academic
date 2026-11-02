@@ -1,12 +1,13 @@
 package com.metservice.kanban.model;
 
 import static java.lang.String.format;
+
 import org.apache.commons.lang.UnhandledException;
 
-//TODO This class needs unit tests.
+// TODO This class needs unit tests.
 
 public class KanbanCell implements Cloneable {
-    
+
     private final WorkItemType workItemType;
     private WorkItem workItem;
     private WorkItem workItemAbove;
@@ -59,9 +60,7 @@ public class KanbanCell implements Cloneable {
         }
         this.workItem = workItem;
     }
-    
-  
-    
+
     @Override
     protected KanbanCell clone() {
         try {
@@ -70,7 +69,7 @@ public class KanbanCell implements Cloneable {
             throw new UnhandledException(e);
         }
     }
-    
+
     @Override
     public String toString() {
         return isEmptyCell() ? "empty cell" : workItem.toString();

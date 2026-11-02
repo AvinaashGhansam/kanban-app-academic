@@ -1,6 +1,5 @@
 package com.metservice.kanban.web;
 
-
 public class JsonStatus {
 
     public String status;

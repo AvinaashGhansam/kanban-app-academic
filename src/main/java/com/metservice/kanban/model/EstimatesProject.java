@@ -2,6 +2,7 @@ package com.metservice.kanban.model;
 
 import static java.lang.Math.round;
 import static java.lang.Math.sqrt;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,6 @@ public class EstimatesProject {
 
             entries.add(entry);
         }
-
 
         calculateCumulativeCostAverageGuess(entries);
         calculateCumulativeCostWorstCase(entries);

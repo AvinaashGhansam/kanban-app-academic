@@ -3,6 +3,7 @@ package com.metservice.kanban.charts.burnup;
 import static com.metservice.kanban.charts.burnup.BurnUpChartSeriesNames.BACKLOG;
 import static com.metservice.kanban.charts.burnup.BurnUpChartSeriesNames.COMPLETE;
 import static com.metservice.kanban.charts.burnup.BurnUpChartSeriesNames.IN_PROGRESS;
+
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.LocalDate;
 

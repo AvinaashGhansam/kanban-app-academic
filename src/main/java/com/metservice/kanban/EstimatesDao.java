@@ -1,5 +1,8 @@
 package com.metservice.kanban;
 
+import com.metservice.kanban.model.EstimatesProject;
+import com.metservice.kanban.model.KanbanProject;
+import com.metservice.kanban.utils.DateUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,9 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.metservice.kanban.model.EstimatesProject;
-import com.metservice.kanban.model.KanbanProject;
-import com.metservice.kanban.utils.DateUtils;
 
 @Service
 public class EstimatesDao {
@@ -90,7 +90,10 @@ public class EstimatesDao {
         StringBuilder result = new StringBuilder();
 
         for (LocalDate day : data.keySet()) {
-            result.append(day.toString(DateUtils.DATE_FORMAT_STR)).append('|').append(data.get(day)).append(';');
+            result.append(day.toString(DateUtils.DATE_FORMAT_STR))
+                    .append('|')
+                    .append(data.get(day))
+                    .append(';');
         }
 
         return result.toString();

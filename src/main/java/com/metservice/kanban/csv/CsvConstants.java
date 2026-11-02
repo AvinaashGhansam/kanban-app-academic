@@ -12,9 +12,9 @@ public abstract class CsvConstants {
     public static final String EXCLUDED_COLUMN_NAME = "excluded";
     public static final String STOPPED_COLUMN_NAME = "stopped";
     public static final String COLOR_COLUMN_NAME = "colour";
-    
+
     public static final String MUST_HAVE = "musthave";
-    
+
     public static final String WORK_STREAMS = "workstreams";
 
     public static final String SIZE_COLUMN_NAME = "size";

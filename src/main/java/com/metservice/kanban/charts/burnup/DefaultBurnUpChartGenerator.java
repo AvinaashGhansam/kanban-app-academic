@@ -1,5 +1,12 @@
 package com.metservice.kanban.charts.burnup;
 
+import com.google.gson.internal.Pair;
+import com.metservice.kanban.charts.KanbanDrawingSupplier;
+import com.metservice.kanban.charts.cumulativeflow.CumulativeFlowChartBuilder;
+import com.metservice.kanban.model.EstimatesProject;
+import com.metservice.kanban.model.KanbanProject;
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.model.WorkItemType;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,13 +25,6 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.xy.XYDataset;
 import org.joda.time.LocalDate;
-import com.google.gson.internal.Pair;
-import com.metservice.kanban.charts.KanbanDrawingSupplier;
-import com.metservice.kanban.charts.cumulativeflow.CumulativeFlowChartBuilder;
-import com.metservice.kanban.model.EstimatesProject;
-import com.metservice.kanban.model.KanbanProject;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.model.WorkItemType;
 
 public class DefaultBurnUpChartGenerator implements BurnUpChartGenerator {
 
@@ -35,30 +35,34 @@ public class DefaultBurnUpChartGenerator implements BurnUpChartGenerator {
     }
 
     @Override
-    public void generateBurnUpChart(KanbanProject project, WorkItemType type, List<WorkItem> workItems,
-                                    LocalDate startDate, LocalDate currentDate, OutputStream outputStream)
-        throws IOException {
+    public void generateBurnUpChart(
+            KanbanProject project,
+            WorkItemType type,
+            List<WorkItem> workItems,
+            LocalDate startDate,
+            LocalDate currentDate,
+            OutputStream outputStream)
+            throws IOException {
         BurnUpDataModel model = new BurnUpDataModel(type, workItems, startDate, currentDate);
 
-        CategoryDataset dataset = new BurnUpDatasetGenerator().createDataset(model);  
+        CategoryDataset dataset = new BurnUpDatasetGenerator().createDataset(model);
         JFreeChart chart = createChart(dataset, project, startDate, currentDate);
-        chartWriter.writeChart(outputStream, chart, 800, 600);        
+        chartWriter.writeChart(outputStream, chart, 800, 600);
     }
 
-    private JFreeChart createChart(CategoryDataset dataset, KanbanProject project, LocalDate startDate,
-                                   LocalDate endDate) {
+    private JFreeChart createChart(
+            CategoryDataset dataset, KanbanProject project, LocalDate startDate, LocalDate endDate) {
         JFreeChart chart = ChartFactory.createStackedAreaChart(
-            "Burn-Up Chart", // chart title
-            "", // domain axis label
-            "", // range axis label
-            dataset, // data
-            PlotOrientation.VERTICAL, // orientation
-            true, // include legend
-            true,
-            false
-            );
-        
-        CategoryPlot plot = (CategoryPlot) chart.getPlot();        
+                "Burn-Up Chart", // chart title
+                "", // domain axis label
+                "", // range axis label
+                dataset, // data
+                PlotOrientation.VERTICAL, // orientation
+                true, // include legend
+                true,
+                false);
+
+        CategoryPlot plot = (CategoryPlot) chart.getPlot();
         plot.setForegroundAlpha(1f);
         plot.setBackgroundPaint(Color.WHITE);
         plot.setDomainGridlinesVisible(true);
@@ -77,33 +81,31 @@ public class DefaultBurnUpChartGenerator implements BurnUpChartGenerator {
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         rangeAxis.setUpperMargin(0.12);
-        
+
         return chart;
     }
 
     @Override
-    public void generateEstimatesBurnUpChart(EstimatesProject estimatesProject, List<WorkItem> workItems,
-                                             OutputStream outputStream) throws IOException {
+    public void generateEstimatesBurnUpChart(
+            EstimatesProject estimatesProject, List<WorkItem> workItems, OutputStream outputStream) throws IOException {
         EstimatesBurnDownDataModel model = new EstimatesBurnDownDataModel(workItems, estimatesProject);
 
         XYDataset dataset = new EstimatesBurnDownDatasetGenerator().createDataset(model);
         JFreeChart chart = createEstimatesChart(dataset, estimatesProject.getKanbanProject(), model);
         chartWriter.writeChart(outputStream, chart, 800, 600);
-
     }
 
-    private JFreeChart createEstimatesChart(XYDataset dataset, KanbanProject project, EstimatesBurnDownDataModel model) {
+    private JFreeChart createEstimatesChart(
+            XYDataset dataset, KanbanProject project, EstimatesBurnDownDataModel model) {
         JFreeChart chart = ChartFactory.createXYLineChart(
-            "Estimates Burn-Down Chart", // chart title
-            "$ spent", // domain axis label
-            "feature points", // range axis label
-            dataset, // data
-            PlotOrientation.VERTICAL, // orientation
-            true, // include legend
-            true,
-            false
-            );
-
+                "Estimates Burn-Down Chart", // chart title
+                "$ spent", // domain axis label
+                "feature points", // range axis label
+                dataset, // data
+                PlotOrientation.VERTICAL, // orientation
+                true, // include legend
+                true,
+                false);
 
         XYPlot plot = (XYPlot) chart.getPlot();
         plot.setForegroundAlpha(1f);
@@ -121,26 +123,26 @@ public class DefaultBurnUpChartGenerator implements BurnUpChartGenerator {
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
         rangeAxis.setUpperMargin(0.12);
 
-        XYPointerAnnotation annotation = new XYPointerAnnotation("Budget",
-            model.getBudget(), 0, -0.9);
+        XYPointerAnnotation annotation = new XYPointerAnnotation("Budget", model.getBudget(), 0, -0.9);
         annotation.setLabelOffset(10);
         plot.addAnnotation(annotation);
 
         Pair<Integer, LocalDate> lastBudgedEntry = model.getLastBudgedEntry();
         if (lastBudgedEntry != null) {
-            annotation = new XYPointerAnnotation("Last budget entry",
-                lastBudgedEntry.first, model.getRemainingFeaturePointForBudget(lastBudgedEntry), -0.9);
+            annotation = new XYPointerAnnotation(
+                    "Last budget entry",
+                    lastBudgedEntry.first,
+                    model.getRemainingFeaturePointForBudget(lastBudgedEntry),
+                    -0.9);
             annotation.setLabelOffset(10);
             plot.addAnnotation(annotation);
         }
 
-        annotation = new XYPointerAnnotation("Estimated budget",
-            model.getProjectedBudgetConsumed(), 0, -0.9);
+        annotation = new XYPointerAnnotation("Estimated budget", model.getProjectedBudgetConsumed(), 0, -0.9);
         annotation.setLabelOffset(10);
         plot.addAnnotation(annotation);
 
-        annotation = new XYPointerAnnotation("Project start",
-            0, model.getAllFeaturePoints(), -0.5);
+        annotation = new XYPointerAnnotation("Project start", 0, model.getAllFeaturePoints(), -0.5);
         annotation.setLabelOffset(15);
         plot.addAnnotation(annotation);
 

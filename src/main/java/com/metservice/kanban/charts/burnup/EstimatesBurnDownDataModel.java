@@ -1,13 +1,13 @@
 package com.metservice.kanban.charts.burnup;
 
+import com.google.gson.internal.Pair;
+import com.metservice.kanban.model.EstimatesProject;
+import com.metservice.kanban.model.WorkItem;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.gson.internal.Pair;
-import com.metservice.kanban.model.EstimatesProject;
-import com.metservice.kanban.model.WorkItem;
 
 public class EstimatesBurnDownDataModel {
 
@@ -60,9 +60,7 @@ public class EstimatesBurnDownDataModel {
 
     public int getAllFeaturePoints() {
         return allFeaturePoints;
-
     }
-
 
     int computeAllFeaturePoints() {
         int points = 0;
@@ -90,8 +88,6 @@ public class EstimatesBurnDownDataModel {
         return budgetEntries.get(budgetEntries.size() - 1);
     }
 
-
-
     public int getProjectedBudgetConsumed() {
         return projectedBudgedConsumed;
     }
@@ -106,8 +102,7 @@ public class EstimatesBurnDownDataModel {
         int remainingFeaturePointForBudget = getRemainingFeaturePointForBudget(lastBudgedEntry);
 
         if (allFeaturePoints - remainingFeaturePointForBudget != 0) {
-            return lastBudgedEntry.first * allFeaturePoints
-                / (allFeaturePoints - remainingFeaturePointForBudget);
+            return lastBudgedEntry.first * allFeaturePoints / (allFeaturePoints - remainingFeaturePointForBudget);
         } else {
             LOGGER.info("Trying to getProjectedBudget with no finished work items, should return infinity");
             // just some large value to indicate that sth is wrong

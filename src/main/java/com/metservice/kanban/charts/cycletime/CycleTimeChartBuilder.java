@@ -1,5 +1,7 @@
 package com.metservice.kanban.charts.cycletime;
 
+import com.metservice.kanban.charts.KanbanDrawingSupplier;
+import com.metservice.kanban.model.WorkItem;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
@@ -21,21 +23,15 @@ import org.jfree.chart.renderer.category.StackedBarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import com.metservice.kanban.charts.KanbanDrawingSupplier;
-import com.metservice.kanban.model.WorkItem;
-
 public class CycleTimeChartBuilder {
-
-
 
     public CategoryDataset createDataset(Collection<WorkItem> listOfItems) throws IOException {
         List<CycleTimeColumn> listOfColumns = convertFromWorkItemToCycleTimeColumns(listOfItems);
         DefaultCategoryDataset defaultcategorydataset = new DefaultCategoryDataset();
         for (CycleTimeColumn column : listOfColumns) {
             for (int i = 0; i < column.numberOfFragments(); i++) {
-                defaultcategorydataset.addValue(column.getFragmentWeight(i),
-                    column.getFragmentName(i),
-                    column.getName());
+                defaultcategorydataset.addValue(
+                        column.getFragmentWeight(i), column.getFragmentName(i), column.getName());
             }
         }
         return defaultcategorydataset;
@@ -44,7 +40,7 @@ public class CycleTimeChartBuilder {
     public Collection<WorkItem> getCompletedWorkItemsInOrderOfCompletion(Collection<WorkItem> workItemList) {
         List<WorkItem> selectedWorkItems = new ArrayList<WorkItem>();
         for (WorkItem workItem : workItemList) {
-        	
+
             if (!workItem.isExcluded() && workItem.isCompleted()) {
                 selectedWorkItems.add(workItem);
             }
@@ -63,14 +59,21 @@ public class CycleTimeChartBuilder {
         return listOfColumns;
     }
 
-
     private void sortByDateOfCompletion(List<WorkItem> selectedWorkItems) {
         Collections.sort(selectedWorkItems, new WorkItemsComparator());
     }
 
     public JFreeChart createChart(CategoryDataset categorydataset) {
 
-        JFreeChart jfreechart = ChartFactory.createStackedBarChart("Cycle Time Chart", "IDs", "Working Days", categorydataset, PlotOrientation.VERTICAL, true, true, false);
+        JFreeChart jfreechart = ChartFactory.createStackedBarChart(
+                "Cycle Time Chart",
+                "IDs",
+                "Working Days",
+                categorydataset,
+                PlotOrientation.VERTICAL,
+                true,
+                true,
+                false);
         jfreechart.setBackgroundPaint(Color.WHITE);
         CategoryPlot plot = (CategoryPlot) jfreechart.getPlot();
         plot.setBackgroundPaint(Color.WHITE);

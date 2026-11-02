@@ -1,5 +1,8 @@
 package com.metservice.kanban;
 
+import au.com.bytecode.opencsv.CSVReader;
+import au.com.bytecode.opencsv.CSVWriter;
+import com.metservice.kanban.model.KanbanJournalItem;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -7,9 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import au.com.bytecode.opencsv.CSVReader;
-import au.com.bytecode.opencsv.CSVWriter;
-import com.metservice.kanban.model.KanbanJournalItem;
 
 public class KanbanJournalFile {
 
@@ -25,11 +25,11 @@ public class KanbanJournalFile {
 
     public void writeJournal() throws IOException {
         CSVWriter csvWriter = new CSVWriter(new FileWriter(file));
-        
+
         for (KanbanJournalItem item : journalItems) {
             writeItem(csvWriter, item);
         }
-        
+
         csvWriter.close();
     }
 
@@ -48,7 +48,6 @@ public class KanbanJournalFile {
             Collections.sort(journalItems);
         } finally {
             csvReader.close();
-
         }
     }
 
@@ -61,13 +60,8 @@ public class KanbanJournalFile {
     }
 
     private void writeItem(CSVWriter writer, KanbanJournalItem item) {
-        String[] row = new String[] {
-            item.getId().toString(),
-            item.getDate().toString(),
-            item.getText(),
-            item.getUserName()
-        };
+        String[] row =
+                new String[] {item.getId().toString(), item.getDate().toString(), item.getText(), item.getUserName()};
         writer.writeNext(row);
-
     }
 }

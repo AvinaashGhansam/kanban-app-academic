@@ -1,5 +1,10 @@
 package com.metservice.kanban.web;
 
+import com.metservice.kanban.EstimatesDao;
+import com.metservice.kanban.KanbanService;
+import com.metservice.kanban.model.EstimatesProject;
+import com.metservice.kanban.model.KanbanProject;
+import com.metservice.kanban.model.WorkItem;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,13 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-import com.metservice.kanban.EstimatesDao;
-import com.metservice.kanban.KanbanService;
-import com.metservice.kanban.model.EstimatesProject;
-import com.metservice.kanban.model.KanbanProject;
-import com.metservice.kanban.model.WorkItem;
 
-//TODO This class needs unit tests.
+// TODO This class needs unit tests.
 @Controller
 @RequestMapping("{projectName}")
 public class EstimatesController {
@@ -43,7 +43,8 @@ public class EstimatesController {
     KanbanService kanbanService;
 
     @ModelAttribute(ESTIMATES_PROJECT_ATTR)
-    public synchronized EstimatesProject populateEstimatesProject(@PathVariable("projectName") String projectName) throws IOException {
+    public synchronized EstimatesProject populateEstimatesProject(@PathVariable("projectName") String projectName)
+            throws IOException {
         EstimatesProject project = estimatesDao.loadProject(projectName);
 
         return project;
@@ -51,7 +52,7 @@ public class EstimatesController {
 
     @ModelAttribute(KANBAN_PROJECT_ATTR)
     public synchronized KanbanProject populateProject(@PathVariable("projectName") String projectName)
-        throws IOException {
+            throws IOException {
         return kanbanService.getKanbanProject(projectName);
     }
 
@@ -69,15 +70,15 @@ public class EstimatesController {
     }
 
     @ModelAttribute("service")
-    public synchronized KanbanService populateService()
-        throws IOException {
+    public synchronized KanbanService populateService() throws IOException {
 
         return kanbanService;
     }
+
     @RequestMapping("pet-set-project-property")
-    public RedirectView setBudget(String name, int value,
-                                  @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
-        throws IOException {
+    public RedirectView setBudget(
+            String name, int value, @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
+            throws IOException {
 
         if ("budget".equals(name)) {
             project.setBudget(value);
@@ -100,9 +101,12 @@ public class EstimatesController {
     }
 
     @RequestMapping("pet-save-feature")
-    public RedirectView saveFeature(int id, int averageCaseEstimate, int worstCaseEstimate,
-                                    @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
-        throws IOException {
+    public RedirectView saveFeature(
+            int id,
+            int averageCaseEstimate,
+            int worstCaseEstimate,
+            @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
+            throws IOException {
 
         Assert.isTrue(id != 0);
 
@@ -118,9 +122,9 @@ public class EstimatesController {
     }
 
     @RequestMapping("pet-set-feature-included-in-estimates")
-    public RedirectView excludeFeature(int id, boolean value,
-                                       @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
-        throws IOException {
+    public RedirectView excludeFeature(
+            int id, boolean value, @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
+            throws IOException {
 
         boolean includedInEstimates = value;
 
@@ -133,9 +137,9 @@ public class EstimatesController {
     }
 
     @RequestMapping("pet-move-feature")
-    public RedirectView moveFeature(int id, int targetId, String direction,
-                                    @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
-        throws IOException {
+    public RedirectView moveFeature(
+            int id, int targetId, String direction, @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project)
+            throws IOException {
 
         boolean after = "down".equals(direction);
 
@@ -147,8 +151,9 @@ public class EstimatesController {
 
     @RequestMapping(value = "estimates-cost-daily-save", produces = "application/json", consumes = "application/json")
     @ResponseBody
-    public JsonStatus saveDailyCosts(@ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project,
-                                     @RequestBody Data[] data) throws IOException {
+    public JsonStatus saveDailyCosts(
+            @ModelAttribute(ESTIMATES_PROJECT_ATTR) EstimatesProject project, @RequestBody Data[] data)
+            throws IOException {
 
         Map<LocalDate, Integer> dailyCosts = new TreeMap<LocalDate, Integer>();
 
@@ -159,8 +164,10 @@ public class EstimatesController {
                     Integer cost = Integer.parseInt(d.cost);
                     dailyCosts.put(date, cost);
                 } catch (Exception e) {
-                    LOGGER.warn("Error parsing data for daily costs date = {}, cost = {}, skipping this value", d.date,
-                        d.cost);
+                    LOGGER.warn(
+                            "Error parsing data for daily costs date = {}, cost = {}, skipping this value",
+                            d.date,
+                            d.cost);
                     LOGGER.warn("Got exception", e);
                 }
             }
@@ -182,8 +189,6 @@ public class EstimatesController {
             this.cost = cost;
         }
 
-        public Data() {
-
-        }
+        public Data() {}
     }
 }

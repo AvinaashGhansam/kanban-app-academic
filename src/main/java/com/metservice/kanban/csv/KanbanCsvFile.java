@@ -1,6 +1,9 @@
 package com.metservice.kanban.csv;
 
 import static org.apache.commons.io.FileUtils.copyFile;
+
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.model.WorkItemType;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,10 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.model.WorkItemType;
 
-//TODO This class needs more unit tests.
+// TODO This class needs more unit tests.
 
 public class KanbanCsvFile {
 
@@ -105,7 +106,6 @@ public class KanbanCsvFile {
                 }
             }
         }
-
     }
 
     @Override

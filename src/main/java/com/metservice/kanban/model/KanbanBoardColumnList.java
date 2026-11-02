@@ -1,6 +1,7 @@
 package com.metservice.kanban.model;
 
 import static java.util.Arrays.asList;
+
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collections;

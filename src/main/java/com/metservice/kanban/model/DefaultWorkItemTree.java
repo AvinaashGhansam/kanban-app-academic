@@ -3,6 +3,7 @@ package com.metservice.kanban.model;
 import static com.metservice.kanban.model.WorkItem.ROOT_WORK_ITEM_ID;
 import static java.lang.Math.max;
 import static java.util.Collections.emptyList;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO This class needs unit tests.
+// TODO This class needs unit tests.
 
 public final class DefaultWorkItemTree implements WorkItemTree {
 
@@ -134,7 +135,7 @@ public final class DefaultWorkItemTree implements WorkItemTree {
     @Override
     public Collection<WorkItem> getParentAlternatives(WorkItem workItem) {
         return workItem.getParentId() == ROOT_WORK_ITEM_ID
-            ? Collections.<WorkItem> singleton(getRoot())
+                ? Collections.<WorkItem>singleton(getRoot())
                 : getChildren(getParent(workItem).getParentId());
     }
 
@@ -149,7 +150,7 @@ public final class DefaultWorkItemTree implements WorkItemTree {
             addWorkItem(workItem);
         }
     }
-    
+
     private List<WorkItem> filteredList(WorkItem workItem, List<WorkItem> workItemList) {
         List<WorkItem> newList = new ArrayList<WorkItem>();
         for (WorkItem item : workItemList) {
@@ -159,17 +160,17 @@ public final class DefaultWorkItemTree implements WorkItemTree {
         }
         return newList;
     }
-    
+
     private void verifyReorder(WorkItem workItem, List<WorkItem> workItemList) {
         List<WorkItem> currentList = filteredList(workItem, workItemsByParentId.get(workItem.getParentId()));
         List<WorkItem> newList = filteredList(workItem, workItemList);
 
         if (!Arrays.equals(currentList.toArray(), newList.toArray())) {
-            throw new IllegalStateException("Tree was changed by someone else.\nCurrent\n" + currentList + "\nNew\n" 
-                + newList);
+            throw new IllegalStateException(
+                    "Tree was changed by someone else.\nCurrent\n" + currentList + "\nNew\n" + newList);
         }
     }
-    
+
     @Override
     public void reorder(WorkItem workItem, List<WorkItem> workItemList) {
         verifyReorder(workItem, workItemList);
@@ -189,5 +190,4 @@ public final class DefaultWorkItemTree implements WorkItemTree {
     public Map<Integer, WorkItem> getWorkItemsById() {
         return workItemsById;
     }
-    
 }

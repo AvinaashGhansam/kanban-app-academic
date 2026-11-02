@@ -2,13 +2,14 @@ package com.metservice.kanban.utils;
 
 import static org.joda.time.DateTimeConstants.SATURDAY;
 import static org.joda.time.DateTimeConstants.SUNDAY;
+
 import org.joda.time.LocalDate;
 
-//TODO This class needs unit tests.
+// TODO This class needs unit tests.
 
 /**
  * @author Janella Espinas, Liam O'Connor
- * 
+ *
  * Helper utilities revolving around letting people enjoying their public holidays and weekends.
  * After all, isn't that what Labour Day is all about?
  */
@@ -31,8 +32,7 @@ public class WorkingDayUtils {
         "2012-01-23",
     };
 
-    private WorkingDayUtils() {
-    }
+    private WorkingDayUtils() {}
 
     /**
      * Takes two dates and works out the number of working days between them.
@@ -69,11 +69,11 @@ public class WorkingDayUtils {
         }
         return true;
     }
-    
+
     /**
      * If a day is working day, returns it, otherwise search for the next
      * working day (e.g. Monday)
-     * 
+     *
      * @param localDate
      * @return
      */

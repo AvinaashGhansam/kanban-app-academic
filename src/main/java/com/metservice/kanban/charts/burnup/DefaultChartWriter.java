@@ -5,7 +5,6 @@ import java.io.OutputStream;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 
-
 public final class DefaultChartWriter implements ChartWriter {
 
     @Override

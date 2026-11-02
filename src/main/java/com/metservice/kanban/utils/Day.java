@@ -2,12 +2,12 @@ package com.metservice.kanban.utils;
 
 import org.joda.time.LocalDate;
 
-//TODO This class needs unit tests.
-//TODO Consider replacing with Jodatime
+// TODO This class needs unit tests.
+// TODO Consider replacing with Jodatime
 
 /**
  * @author Janella Espinas, Liam O'Connor
- * 
+ *
  * A simple class to represent the day.
  */
 public class Day implements Comparable<Day> {

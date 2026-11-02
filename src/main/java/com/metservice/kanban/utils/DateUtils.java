@@ -9,8 +9,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//TODO This class needs unit tests.
-
+// TODO This class needs unit tests.
 
 /**
  * Helper class for dates, specifically configured for New Zealand timezone.
@@ -36,8 +35,7 @@ public class DateUtils {
                 .toFormatter();
     }
 
-    private DateUtils() {
-    }
+    private DateUtils() {}
 
     /**Returns a LocalDate parsed in conventional New Zealand (dd/mm/yy) format.
      * @param dateString
@@ -46,7 +44,7 @@ public class DateUtils {
     public static LocalDate parseConventionalNewZealandDate(String dateString) {
         return CONVENTIONAL_NEW_ZEALAND_DATE_FORMAT.parseDateTime(dateString).toLocalDate();
     }
-    
+
     /**
      * Returns a LocalDate parsed in the default ISO (yy/mm/dd) format.
      * @param dateString
@@ -73,7 +71,7 @@ public class DateUtils {
     public static String formatIsoDate(LocalDate date) {
         return date.toString(ISO_FORMAT);
     }
-    
+
     /**
      * Returns the LocalDate specifically in the New Zealand timezone.
      * @return

@@ -1,5 +1,9 @@
 package com.metservice.kanban.model;
 
+import com.metservice.kanban.charts.ChartUtils;
+import com.metservice.kanban.charts.burnup.BurnUpDataModel;
+import com.metservice.kanban.charts.burnup.ProjectedDatasetPopulator;
+import com.metservice.kanban.web.KanbanPersistence;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,17 +11,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import org.apache.commons.lang.NotImplementedException;
 import org.joda.time.LocalDate;
-import com.metservice.kanban.charts.ChartUtils;
-import com.metservice.kanban.charts.burnup.BurnUpDataModel;
-import com.metservice.kanban.charts.burnup.ProjectedDatasetPopulator;
-import com.metservice.kanban.web.KanbanPersistence;
 
-//TODO This class needs more unit tests.
+// TODO This class needs more unit tests.
 
 /**
  * @author Janella Espinas, Chris Cooper
  */
-
 public class DefaultKanbanProject implements KanbanProject {
     private final WorkItemTypeCollection workItemTypes;
     private final KanbanBoardConfiguration columnsByBoard;
@@ -25,15 +24,19 @@ public class DefaultKanbanProject implements KanbanProject {
     private final KanbanPersistence persistence;
     private final String name;
 
-	/**
-	 * Default constructor for DefaultKanbanProject.
-	 * @param workItemTypes - the collection of all WorkItemTypes represented in the tree of workItems.
-	 * @param phaseSequences - the representation of project phases on a board
-	 * @param tree - the collection of all WorkItems in the project
-	 * @param persistence - the raw file containing the data in the project
-	 */
-    public DefaultKanbanProject(WorkItemTypeCollection workItemTypes, KanbanBoardConfiguration phaseSequences,
-                                WorkItemTree tree, KanbanPersistence persistence, String name) {
+    /**
+     * Default constructor for DefaultKanbanProject.
+     * @param workItemTypes - the collection of all WorkItemTypes represented in the tree of workItems.
+     * @param phaseSequences - the representation of project phases on a board
+     * @param tree - the collection of all WorkItems in the project
+     * @param persistence - the raw file containing the data in the project
+     */
+    public DefaultKanbanProject(
+            WorkItemTypeCollection workItemTypes,
+            KanbanBoardConfiguration phaseSequences,
+            WorkItemTree tree,
+            KanbanPersistence persistence,
+            String name) {
         this.workItemTypes = workItemTypes;
         this.columnsByBoard = phaseSequences;
         this.tree = tree;
@@ -56,25 +59,34 @@ public class DefaultKanbanProject implements KanbanProject {
      */
     @Override
     public void stop(int id) {
-    	tree.getWorkItem(id).stop();
+        tree.getWorkItem(id).stop();
     }
 
     /**
      * Adds a new WorkItem to the project. After being added to the project, it is advanced to
      * the first phase on the Kanban board and the date is logged.
-	 * @param parentId - the id of the parent WorkItem
-	 * @param type - the type of the WorkItem
-	 * @param itemName - the name of the WorkItem
-	 * @param averageCaseEstimate - the size of the WorkItem
-	 * @param worstCaseEstimate - the worstCaseEstimate of the WorkItem
-	 * @param importance - the importance of the WorkItem
-	 * @param notes - relevant notes regarding the WorkItem
-	 * @param backlogDate - the date that the new WorkItem was added to the project and backlog
+     * @param parentId - the id of the parent WorkItem
+     * @param type - the type of the WorkItem
+     * @param itemName - the name of the WorkItem
+     * @param averageCaseEstimate - the size of the WorkItem
+     * @param worstCaseEstimate - the worstCaseEstimate of the WorkItem
+     * @param importance - the importance of the WorkItem
+     * @param notes - relevant notes regarding the WorkItem
+     * @param backlogDate - the date that the new WorkItem was added to the project and backlog
      */
     @Override
-    public int addWorkItem(int parentId, WorkItemType type, String itemName, int averageCaseEstimate, int worstCaseEstimate,
-                            int importance, String notes, String color, boolean excluded, String workStreams,
-                            LocalDate backlogDate) {
+    public int addWorkItem(
+            int parentId,
+            WorkItemType type,
+            String itemName,
+            int averageCaseEstimate,
+            int worstCaseEstimate,
+            int importance,
+            String notes,
+            String color,
+            boolean excluded,
+            String workStreams,
+            LocalDate backlogDate) {
 
         int newId = tree.getNewId();
 
@@ -91,12 +103,11 @@ public class DefaultKanbanProject implements KanbanProject {
 
         tree.addWorkItem(workItem);
 
-		// add the WorkItem onto the board and log the date
+        // add the WorkItem onto the board and log the date
         advance(newId, backlogDate);
-        
+
         return newId;
     }
-
 
     /**
      * Modifies order in which the WorkItems are displayed on the Kanban board.
@@ -109,11 +120,11 @@ public class DefaultKanbanProject implements KanbanProject {
         tree.move(tree.getWorkItem(id), tree.getWorkItem(targetId), after);
     }
 
-	/**
-	 * Returns all columns on a Kanban board.
-	 * @param boardType - the type of board
-	 * @return the list of columns on the current Kanban board
-	 */
+    /**
+     * Returns all columns on a Kanban board.
+     * @param boardType - the type of board
+     * @return the list of columns on the current Kanban board
+     */
     @Override
     public KanbanBoardColumnList getColumns(BoardIdentifier boardType) {
         return columnsByBoard.get(boardType);
@@ -124,10 +135,10 @@ public class DefaultKanbanProject implements KanbanProject {
         return getColumns(BoardIdentifier.WALL);
     }
 
-	/**
-	 * Returns the tree representation of the WorkItems in the project.
-	 * @return the tree representation of all WorkItems on the current Kanban board
-	 */
+    /**
+     * Returns the tree representation of the WorkItems in the project.
+     * @return the tree representation of all WorkItems on the current Kanban board
+     */
     @Override
     public WorkItemTree getWorkItemTree() {
         return this.tree;
@@ -142,19 +153,19 @@ public class DefaultKanbanProject implements KanbanProject {
         return getWorkItemTree().getWorkItem(id);
     }
 
-	/**
-	 * Removes a WorkItem from the project tree.
-	 * @param id - the id of the WorkItem to be deleted
-	 */
+    /**
+     * Removes a WorkItem from the project tree.
+     * @param id - the id of the WorkItem to be deleted
+     */
     @Override
     public void deleteWorkItem(int id) {
         tree.delete(id);
     }
 
-	/**
-	 * Removes a WorkItem from the project tree.
-	 * @exception IOException if there is an error writing to the data file
-	 */
+    /**
+     * Removes a WorkItem from the project tree.
+     * @exception IOException if there is an error writing to the data file
+     */
     @Override
     public void save() throws IOException {
         persistence.write(tree);
@@ -177,8 +188,8 @@ public class DefaultKanbanProject implements KanbanProject {
      */
     @Override
     public KanbanBoard getBoard(BoardIdentifier boardType, String workStream) {
-        KanbanBoardBuilder kanbanBoardBuilder = new KanbanBoardBuilder(columnsByBoard.get(boardType), workItemTypes,
-            tree);
+        KanbanBoardBuilder kanbanBoardBuilder =
+                new KanbanBoardBuilder(columnsByBoard.get(boardType), workItemTypes, tree);
         return kanbanBoardBuilder.build(workStream, null);
     }
 
@@ -190,10 +201,10 @@ public class DefaultKanbanProject implements KanbanProject {
     public KanbanBacklog getBacklog(String workStream) {
         // TODO Why a board builder to build the backlog screen?
         KanbanBoardBuilder kanbanBoardBuilder = new KanbanBoardBuilder(
-            new KanbanBoardColumnList(
-                new KanbanBoardColumn(getRootWorkItemType(), getRootWorkItemType().getBacklogPhase())),
-            workItemTypes,
-            tree);
+                new KanbanBoardColumnList(new KanbanBoardColumn(
+                        getRootWorkItemType(), getRootWorkItemType().getBacklogPhase())),
+                workItemTypes,
+                tree);
         KanbanBacklog backlog = kanbanBoardBuilder.buildKanbanBacklog(workStream);
         return backlog;
     }
@@ -202,16 +213,17 @@ public class DefaultKanbanProject implements KanbanProject {
     public KanbanBoard getCompleted(String workStream) {
         // get last column
         KanbanBoardBuilder kanbanBoardBuilder = new KanbanBoardBuilder(
-            new KanbanBoardColumnList(
-                new KanbanBoardColumn(getRootWorkItemType(), getRootWorkItemType().getCompletedPhase())),
-            workItemTypes, tree);
+                new KanbanBoardColumnList(new KanbanBoardColumn(
+                        getRootWorkItemType(), getRootWorkItemType().getCompletedPhase())),
+                workItemTypes,
+                tree);
         return kanbanBoardBuilder.build(workStream, WorkItem.LAST_PHASE_DATE_COMPARATOR);
     }
 
-	/**
-	 * Returns the type of the topmost level (root) WorkItem within the project.
-	 * @return the type of the root WorkItem
-	 */
+    /**
+     * Returns the type of the topmost level (root) WorkItem within the project.
+     * @return the type of the root WorkItem
+     */
     private WorkItemType getRootWorkItemType() {
         return workItemTypes.getRoot().getValue();
     }
@@ -224,7 +236,6 @@ public class DefaultKanbanProject implements KanbanProject {
     public WorkItemTypeCollection getWorkItemTypes() {
         return workItemTypes;
     }
-
 
     /**
      * Reorders a single WorkItem in the tree and rebuilds the tree.
@@ -240,27 +251,27 @@ public class DefaultKanbanProject implements KanbanProject {
 
         tree.reorder(tree.getWorkItem(id), list);
     }
-/*
-    @Override
-    public String getJournalText() {
-    	String catchString = "";
-    	 try {
-			catchString = persistence.journalRead();
-    	 } catch (IOException e) {
-			e.printStackTrace();
-    	 }
-    	return catchString;
-    }
+    /*
+        @Override
+        public String getJournalText() {
+        	String catchString = "";
+        	 try {
+    			catchString = persistence.journalRead();
+        	 } catch (IOException e) {
+    			e.printStackTrace();
+        	 }
+        	return catchString;
+        }
 
-    @Override
-    public void writeJournalText(String journalText) {
-    	try {
-			persistence.journalWrite(journalText);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
-*/
+        @Override
+        public void writeJournalText(String journalText) {
+        	try {
+    			persistence.journalWrite(journalText);
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+        }
+    */
     @Override
     public List<KanbanJournalItem> getJournal() {
         try {
@@ -270,8 +281,7 @@ public class DefaultKanbanProject implements KanbanProject {
             return null;
         }
     }
-    
-    
+
     public String getName() {
         return name;
     }
@@ -330,7 +340,6 @@ public class DefaultKanbanProject implements KanbanProject {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -350,5 +359,4 @@ public class DefaultKanbanProject implements KanbanProject {
     public WorkItemType getChildType(WorkItemType parentType) {
         return getWorkItemTypes().getTreeNode(parentType).getChild(0).getValue();
     }
-
 }
