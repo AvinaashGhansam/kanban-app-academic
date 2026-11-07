@@ -56,7 +56,17 @@ This produces `target/kanban-app-academic-<version>.war`.
 
 ## Running
 
-Deploy the WAR to a servlet container such as Tomcat or Jetty, then open `http://localhost:8080/kanban`
+To run the app locally with the Jetty Maven plugin:
+
+```sh
+mvn jetty:run
+```
+
+Then open `http://localhost:8080/kanban`. This uses the `sample/` directory as the Kanban home, which holds a
+`Sample` project. On startup you may see `log4j:ERROR ... /var/log/kanban.log (Permission denied)`. You can ignore it:
+it only means log4j cannot write its log file to that path.
+
+Or deploy the WAR to a servlet container such as Tomcat or Jetty, then open `http://localhost:8080/kanban`
 (the context path depends on how you deploy it). The first page offers to create a Kanban home directory with a
 sample project. See [`kanban-app-set-up.html`](kanban-app-set-up.html) for the original setup and configuration guide.
 
