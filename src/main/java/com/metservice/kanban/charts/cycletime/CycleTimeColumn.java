@@ -1,10 +1,10 @@
 package com.metservice.kanban.charts.cycletime;
 
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.utils.WorkingDayUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.LocalDate;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.utils.WorkingDayUtils;
 
 public class CycleTimeColumn {
 
@@ -40,9 +40,9 @@ public class CycleTimeColumn {
     public static CycleTimeColumn buildCycleTimeColumnFromWorkItem(WorkItem workItem) {
         List<String> phases = workItem.getType().getPhases();
         List<String> phasesAfterInitialPhase = phases.subList(1, phases.size());
-        
+
         CycleTimeColumn column = new CycleTimeColumn(Integer.toString(workItem.getId()));
-        
+
         LocalDate previousDate = null;
         String previousPhase = null;
         for (String phase : phasesAfterInitialPhase) {
@@ -69,5 +69,4 @@ public class CycleTimeColumn {
         }
         return date;
     }
-
 }

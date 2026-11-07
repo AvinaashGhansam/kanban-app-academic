@@ -1,7 +1,6 @@
 package com.metservice.kanban.model;
 
 import java.io.Serializable;
-
 import org.joda.time.LocalDateTime;
 import org.springframework.util.Assert;
 
@@ -61,7 +60,8 @@ public class WorkItemComment implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("WorkItemComment [parentId=%s, whenAdded=%s, addedBy=%s, commentText=%s]",
+        return String.format(
+                "WorkItemComment [parentId=%s, whenAdded=%s, addedBy=%s, commentText=%s]",
                 parentId, whenAdded, addedBy, commentText);
     }
 }

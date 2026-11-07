@@ -4,15 +4,16 @@ import static org.hamcrest.core.AnyOf.anyOf;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
+
+import com.metservice.kanban.charts.ChartUtils;
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.model.WorkItemType;
+import com.metservice.kanban.utils.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.IsAnything;
 import org.joda.time.LocalDate;
-import com.metservice.kanban.charts.ChartUtils;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.model.WorkItemType;
-import com.metservice.kanban.utils.DateUtils;
 
 public class BurnUpDataModel {
 
@@ -33,7 +34,8 @@ public class BurnUpDataModel {
         this.endDate = endDate;
     }
 
-    public BurnUpDataModel(WorkItemType workItemType, List<WorkItem> workItems, LocalDate startDate, LocalDate endDate) {
+    public BurnUpDataModel(
+            WorkItemType workItemType, List<WorkItem> workItems, LocalDate startDate, LocalDate endDate) {
         this.workItemType = workItemType;
         this.workItems = removeExcludedWorkItems(workItems);
 
@@ -84,15 +86,12 @@ public class BurnUpDataModel {
 
     public int getInProgressSizeOnDate(LocalDate date) {
         Matcher<String> inProgress = not(anyOf(
-            nullValue(String.class),
-            is(workItemType.getBacklogPhase()),
-            is(workItemType.getCompletedPhase())));
+                nullValue(String.class), is(workItemType.getBacklogPhase()), is(workItemType.getCompletedPhase())));
         return sumWorkItemSizesWherePhase(inProgress, workItems, date);
     }
 
-    private static int sumWorkItemSizesWherePhase(Matcher<String> phaseMatcher,
-                                                  Iterable<WorkItem> workItems,
-                                                  LocalDate onDate) {
+    private static int sumWorkItemSizesWherePhase(
+            Matcher<String> phaseMatcher, Iterable<WorkItem> workItems, LocalDate onDate) {
         int sum = 0;
         for (WorkItem workItem : workItems) {
             if (phaseMatcher.matches(workItem.getPhaseOnDate(onDate))) {

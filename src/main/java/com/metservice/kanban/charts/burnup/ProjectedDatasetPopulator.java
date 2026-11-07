@@ -3,6 +3,7 @@ package com.metservice.kanban.charts.burnup;
 import static com.metservice.kanban.charts.ChartUtils.nextWorkingDayAfter;
 import static com.metservice.kanban.charts.burnup.BurnUpChartSeriesNames.BACKLOG;
 import static com.metservice.kanban.charts.burnup.BurnUpChartSeriesNames.COMPLETE;
+
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.LocalDate;
 
@@ -20,7 +21,7 @@ public final class ProjectedDatasetPopulator {
 
         int elapsedDays = model.getWorkingDays().size() - 1;
         double pointsCompletedPerDay = completedSize / elapsedDays;
-        
+
         if (pointsCompletedPerDay <= 0) {
             return;
         }

@@ -2,6 +2,7 @@ package com.metservice.kanban.csv;
 
 import static com.metservice.kanban.utils.DateUtils.parseIsoDate;
 import static java.lang.Integer.parseInt;
+
 import org.joda.time.LocalDate;
 
 public class CsvRow {
@@ -35,7 +36,7 @@ public class CsvRow {
     public String getString(String columnName) {
         if (!columnNames.hasColumn(columnName)) {
             return STRING_DEFAULT;
-        } 
+        }
         int index = columnNames.getColumnIndex(columnName);
         String unparsedString = cells[index];
         return unparsedString.isEmpty() ? null : unparsedString;
@@ -49,7 +50,7 @@ public class CsvRow {
     public Boolean getBoolean(String columnName) {
         if (!columnNames.hasColumn(columnName)) {
             return BOOLEAN_DEFAULT;
-        } 
+        }
         return Boolean.parseBoolean(getString(columnName));
     }
 }

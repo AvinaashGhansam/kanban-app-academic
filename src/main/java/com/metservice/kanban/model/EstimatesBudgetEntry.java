@@ -1,6 +1,5 @@
 package com.metservice.kanban.model;
 
-
 public class EstimatesBudgetEntry {
 
     private WorkItem feature;

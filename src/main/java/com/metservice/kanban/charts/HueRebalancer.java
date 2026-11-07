@@ -16,7 +16,7 @@ public class HueRebalancer {
 
     public double balance(double unbalancedHue) {
         unbalancedHue %= 1.0;
-        
+
         int segmentNumber = (int) (unbalancedHue * numberOfSegments);
         double positionWithinSegment = unbalancedHue * numberOfSegments - segmentNumber;
 

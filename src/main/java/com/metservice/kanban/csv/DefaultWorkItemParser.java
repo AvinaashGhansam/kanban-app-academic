@@ -1,10 +1,11 @@
 package com.metservice.kanban.csv;
 
 import static com.metservice.kanban.csv.CsvConstants.*;
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
+
 import com.metservice.kanban.model.WorkItem;
 import com.metservice.kanban.model.WorkItemType;
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 
 public class DefaultWorkItemParser implements WorkItemParser {
 
@@ -48,7 +49,7 @@ public class DefaultWorkItemParser implements WorkItemParser {
         if (StringUtils.isEmpty(color)) {
             color = "ffffff";
         }
-        
+
         workItem.setColour(color);
         workItem.setBlocked(stopped);
         workItem.setWorstCaseEstimate(worstCaseEstimate);

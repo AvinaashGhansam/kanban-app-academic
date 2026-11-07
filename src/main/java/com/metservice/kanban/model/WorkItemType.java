@@ -2,6 +2,7 @@ package com.metservice.kanban.model;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableList;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.StringUtils;
@@ -11,11 +12,11 @@ public class WorkItemType {
     private static final HtmlColour DEFAULT_COLOUR = new HtmlColour("FFFFFF");
 
     private final List<String> phases;
-    
+
     private String name;
     private HtmlColour cardColour = DEFAULT_COLOUR;
     private HtmlColour backgroundColour = DEFAULT_COLOUR;
-    
+
     public WorkItemType(String... phases) {
         this.phases = new ArrayList<String>(asList(phases));
     }
@@ -49,7 +50,6 @@ public class WorkItemType {
         return name;
     }
 
-
     public boolean hasPhaseAfter(String phase) {
         if (phase == null) {
             return phases.size() > 0;
@@ -69,7 +69,6 @@ public class WorkItemType {
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getBacklogPhase() {
         return phases.get(0);
@@ -109,6 +108,4 @@ public class WorkItemType {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
-
-
 }

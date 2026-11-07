@@ -1,13 +1,12 @@
 package com.metservice.kanban.model;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.metservice.kanban.KanbanCommentsFile;
 import com.metservice.kanban.KanbanJournalFile;
 import com.metservice.kanban.KanbanPropertiesFile;
+import java.io.File;
+import java.io.IOException;
 
-//TODO This class needs unit tests.
+// TODO This class needs unit tests.
 
 public class KanbanProjectConfiguration {
     private final File projectHome;
@@ -15,8 +14,12 @@ public class KanbanProjectConfiguration {
     private final TreeNode<WorkItemType> rootWorkItemType;
     private final WorkItemTypeCollection workItemTypes;
 
-    public KanbanProjectConfiguration(File projectHome, KanbanBoardConfiguration phaseSequences,
-            TreeNode<WorkItemType> rootWorkItemType, WorkItemTypeCollection workItemTypes) throws IOException {
+    public KanbanProjectConfiguration(
+            File projectHome,
+            KanbanBoardConfiguration phaseSequences,
+            TreeNode<WorkItemType> rootWorkItemType,
+            WorkItemTypeCollection workItemTypes)
+            throws IOException {
         this.projectHome = projectHome;
         this.phaseSequences = phaseSequences;
         this.rootWorkItemType = rootWorkItemType;
@@ -37,9 +40,9 @@ public class KanbanProjectConfiguration {
 
     @Deprecated
     public File getJournalFile() throws IOException {
-    	File journalFile = new File(projectHome, "journal.txt");
-    	journalFile.createNewFile();
-    	return journalFile;
+        File journalFile = new File(projectHome, "journal.txt");
+        journalFile.createNewFile();
+        return journalFile;
     }
 
     public KanbanBoardConfiguration getPhaseSequences() {

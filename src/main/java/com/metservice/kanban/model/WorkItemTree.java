@@ -26,9 +26,9 @@ public interface WorkItemTree {
 
     int getNewId();
 
-    void reorder(WorkItem workItem, List<WorkItem> workItemList); 
+    void reorder(WorkItem workItem, List<WorkItem> workItemList);
 
-    void move(WorkItem workItem, WorkItem target, boolean after); 
+    void move(WorkItem workItem, WorkItem target, boolean after);
 
     List<WorkItem> getChildrenWithType(int parentId, WorkItemType childType, String workStream);
 

@@ -2,12 +2,13 @@ package com.metservice.kanban.model;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.unmodifiableCollection;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 
-//TODO This class needs unit tests.
+// TODO This class needs unit tests.
 
 public class KanbanBoardRow implements Iterable<KanbanCell>, Cloneable {
 
@@ -39,7 +40,7 @@ public class KanbanBoardRow implements Iterable<KanbanCell>, Cloneable {
 
     public void insert(WorkItem workItem, WorkItem workItemAbove, WorkItem workItemBelow, WorkItem workItemTop) {
         String phase = workItem.getCurrentPhase();
-        
+
         int index = columns.getIndexOfPhase(phase);
 
         KanbanCell cell = cells[index];
@@ -107,7 +108,7 @@ public class KanbanBoardRow implements Iterable<KanbanCell>, Cloneable {
     public KanbanBoardColumnList getColumns() {
         return columns;
     }
-    
+
     public Collection<KanbanCell> listOfCellsOfType(WorkItemType type) {
         ArrayList<KanbanCell> list = new ArrayList<KanbanCell>();
         for (KanbanCell cell : cells) {

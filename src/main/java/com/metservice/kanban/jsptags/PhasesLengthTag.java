@@ -1,5 +1,13 @@
 package com.metservice.kanban.jsptags;
 
+import com.metservice.kanban.charts.KanbanDrawingSupplier;
+import com.metservice.kanban.model.BoardIdentifier;
+import com.metservice.kanban.model.HtmlColour;
+import com.metservice.kanban.model.KanbanBoardColumn;
+import com.metservice.kanban.model.KanbanBoardColumnList;
+import com.metservice.kanban.model.KanbanProject;
+import com.metservice.kanban.model.WorkItem;
+import com.metservice.kanban.model.WorkItemType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,14 +17,6 @@ import java.util.Map;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 import org.apache.commons.collections.ListUtils;
-import com.metservice.kanban.charts.KanbanDrawingSupplier;
-import com.metservice.kanban.model.BoardIdentifier;
-import com.metservice.kanban.model.HtmlColour;
-import com.metservice.kanban.model.KanbanBoardColumn;
-import com.metservice.kanban.model.KanbanBoardColumnList;
-import com.metservice.kanban.model.KanbanProject;
-import com.metservice.kanban.model.WorkItem;
-import com.metservice.kanban.model.WorkItemType;
 
 public class PhasesLengthTag extends TagSupport {
 
@@ -56,9 +56,10 @@ public class PhasesLengthTag extends TagSupport {
                 if (phaseDurations.containsKey(phase)) {
                     int phaseDays = phaseDurations.get(phase);
                     int phaseWidth = (int) Math.floor(phaseDays * PIXELS_PER_DAY);
-                    pageContext.getOut().write(
-                        "<div class=\"age-item\" style=\"width:" + phaseWidth + "px; background-color: " + currentColor
-                            + ";\">\n\n");
+                    pageContext
+                            .getOut()
+                            .write("<div class=\"age-item\" style=\"width:" + phaseWidth + "px; background-color: "
+                                    + currentColor + ";\">\n\n");
                     if (phaseWidth > PHASE_WIDTH_PIX_TO_DISPLAY_NUMBER) {
                         pageContext.getOut().write(Integer.toString(phaseDays));
                     }
@@ -82,5 +83,4 @@ public class PhasesLengthTag extends TagSupport {
     public void setType(WorkItemType type) {
         this.type = type;
     }
-
 }

@@ -2,21 +2,7 @@ package com.metservice.kanban;
 
 import static java.util.Arrays.asList;
 import static org.apache.commons.io.FileUtils.writeStringToFile;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Properties;
 
-import com.metservice.kanban.utils.MessageUtils;
-import org.apache.commons.io.filefilter.FileFileFilter;
-import org.apache.commons.io.filefilter.NotFileFilter;
-import org.apache.commons.io.filefilter.OrFileFilter;
-import org.apache.commons.io.filefilter.PrefixFileFilter;
 import au.com.bytecode.opencsv.CSVReader;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.metservice.kanban.model.DefaultKanbanProject;
@@ -28,21 +14,32 @@ import com.metservice.kanban.model.TreeNode;
 import com.metservice.kanban.model.WorkItemTree;
 import com.metservice.kanban.model.WorkItemType;
 import com.metservice.kanban.model.WorkItemTypeCollection;
+import com.metservice.kanban.utils.MessageUtils;
 import com.metservice.kanban.web.KanbanPersistence;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.Properties;
+import org.apache.commons.io.filefilter.FileFileFilter;
+import org.apache.commons.io.filefilter.NotFileFilter;
+import org.apache.commons.io.filefilter.OrFileFilter;
+import org.apache.commons.io.filefilter.PrefixFileFilter;
 
 public class KanbanService {
 
-    //Sets the KANBAN_HOME_PROPERTY name
+    // Sets the KANBAN_HOME_PROPERTY name
     public static final String KANBAN_HOME_PROPERTY_NAME = "kanban.home";
 
-    //Filters the files that start with a . i.e '.home'
-    private static final NotFileFilter NO_DOT_DIRS_NO_FILES = new NotFileFilter(
-        new OrFileFilter(
-            new PrefixFileFilter("."),
-            FileFileFilter.FILE
-        ));
+    // Filters the files that start with a . i.e '.home'
+    private static final NotFileFilter NO_DOT_DIRS_NO_FILES =
+            new NotFileFilter(new OrFileFilter(new PrefixFileFilter("."), FileFileFilter.FILE));
 
-    //Sets the KANBAN_PROPERTIES_FILE name
+    // Sets the KANBAN_PROPERTIES_FILE name
     private static final String KANBAN_PROPERTIES_FILE_NAME = "kanban.properties";
 
     private final File home;
@@ -60,7 +57,7 @@ public class KanbanService {
      * <p>
      * If the path is not <code>null</code> then a new {@link File} is created
      * using the pathname defined in the {@code KANBAN_HOME_PROPERTY_NAME}.
-     * 
+     *
      * @return Returns a {@link File} object.
      */
     private static File getKanbanHomeFromSystemProperty() {
@@ -74,7 +71,7 @@ public class KanbanService {
 
     /**
      * Version number is retrieved from the version.txt file
-     * 
+     *
      * @return
      *         A {@link String} which is the version number of the program
      *         <p>
@@ -95,7 +92,7 @@ public class KanbanService {
 
     /**
      * Constructor for {@link KanbanService}.
-     * 
+     *
      * @param home
      *            - When passed the home File the <code>home</code> and
      *            <code>version</code> fields are set.
@@ -122,7 +119,7 @@ public class KanbanService {
     /**
      * Returns a collection of projects who's names do not start with
      * <code>"."</code>
-     * 
+     *
      * @return {@link Collection} - returns a <code>Collection(String)</code> of
      *         projects.
      */
@@ -158,7 +155,7 @@ public class KanbanService {
     /**
      * Retrieves project information of the specified project then takes the
      * information and creates a {@link KanbanProject} object to be returned.
-     * 
+     *
      * @param projectName
      *            - {@link String} name of project to be retrieved.
      * @return {@link KanbanProject} a new KanbanProject created from retrieved
@@ -172,8 +169,8 @@ public class KanbanService {
         TreeNode<WorkItemType> rootWorkItemType = configuration.getRootWorkItemType();
         KanbanBoardConfiguration phaseSequences = configuration.getPhaseSequences();
 
-        //Creates a new KanbanPersistence object using the configuration file.
-        //Then, creates a WorkItemTree using the persistence file.
+        // Creates a new KanbanPersistence object using the configuration file.
+        // Then, creates a WorkItemTree using the persistence file.
         KanbanPersistence persistence = new KanbanPersistence(configuration);
         WorkItemTree tree = persistence.read();
 
@@ -184,7 +181,7 @@ public class KanbanService {
     /**
      * Method to create a {@link WorkItemTypeCollection} from the WorkItemType
      * {@link TreeNode}
-     * 
+     *
      * @param rootWorkItemType
      * @return {@link WorkItemTypeCollection} - the newly created object.
      */
@@ -199,14 +196,14 @@ public class KanbanService {
      * build the configuration.
      * <p>
      * The configuration is then returned.
-     * 
+     *
      * @param {@link String} projectName
      * @return {@link KanbanProjectConfiguration} - the project configuration.
      * @throws IOException
      */
     public KanbanProjectConfiguration getProjectConfiguration(String projectName) throws IOException {
-        KanbanProjectConfigurationBuilder configurationBuilder = new KanbanProjectConfigurationBuilder(home,
-            projectName);
+        KanbanProjectConfigurationBuilder configurationBuilder =
+                new KanbanProjectConfigurationBuilder(home, projectName);
         return configurationBuilder.buildConfiguration();
     }
 
@@ -227,20 +224,24 @@ public class KanbanService {
         File newProjectHome = new File(home, newProjectName);
 
         if (newProjectHome.exists()) {
-            throw new IllegalArgumentException("cannot create a project with the same name as an existing project: "
-                + newProjectName);
+            throw new IllegalArgumentException(
+                    "cannot create a project with the same name as an existing project: " + newProjectName);
         }
 
-        //Creates the project folder and writes the settings to '[newProjectName].kanban.properties'
+        // Creates the project folder and writes the settings to '[newProjectName].kanban.properties'
         try {
-            if ( ! newProjectHome.mkdir() )  {
-                throw new IllegalArgumentException("cannot create project " + MessageUtils.decorateSingleQuotes(newProjectName) +". "
-                                                + "Please check permissions on folder " + MessageUtils.decorateSingleQuotes( newProjectHome.getParentFile().getAbsolutePath()) );
+            if (!newProjectHome.mkdir()) {
+                throw new IllegalArgumentException(
+                        "cannot create project " + MessageUtils.decorateSingleQuotes(newProjectName) + ". "
+                                + "Please check permissions on folder "
+                                + MessageUtils.decorateSingleQuotes(
+                                        newProjectHome.getParentFile().getAbsolutePath()));
             }
-        }
-        catch (SecurityException e) {
-            throw new IllegalArgumentException("cannot create project " + MessageUtils.decorateSingleQuotes(newProjectName) +". "
-                    + "Please check permissions on folder " + MessageUtils.decorateSingleQuotes( newProjectHome.getParentFile().getAbsolutePath()) );
+        } catch (SecurityException e) {
+            throw new IllegalArgumentException("cannot create project "
+                    + MessageUtils.decorateSingleQuotes(newProjectName) + ". " + "Please check permissions on folder "
+                    + MessageUtils.decorateSingleQuotes(
+                            newProjectHome.getParentFile().getAbsolutePath()));
         }
         File file = new File(newProjectHome, KANBAN_PROPERTIES_FILE_NAME);
         writeStringToFile(file, settings);
@@ -251,7 +252,7 @@ public class KanbanService {
      * It overwrites the existing .properties file for that project.
      * If a .properties file for that project does not exist, the project is
      * not edited.
-     * 
+     *
      * @param projectName
      *            - the project to edit
      * @param settings
@@ -269,10 +270,9 @@ public class KanbanService {
         }
     }
 
-
     /**
      * Rename a project.
-     * 
+     *
      * @param projectName
      *            the project name
      * @param newProjectName
@@ -293,15 +293,15 @@ public class KanbanService {
     }
 
     public void setColumnWipLimit(String projectName, WorkItemType workItemtype, String columnName, Integer wipLimit)
-        throws IOException {
+            throws IOException {
 
-        getProjectConfiguration(projectName).getKanbanPropertiesFile().setColumnWipLimit(workItemtype, columnName,
-            wipLimit);
+        getProjectConfiguration(projectName)
+                .getKanbanPropertiesFile()
+                .setColumnWipLimit(workItemtype, columnName, wipLimit);
     }
 
     public boolean renameColumn(String projectName, WorkItemType workItemType, String columnName, String newColumnName)
-        throws IOException
-    {
+            throws IOException {
         // check if column exists
         if (!workItemType.containsPhase(columnName)) {
             return false;
@@ -311,8 +311,9 @@ public class KanbanService {
         }
         // rename column in a properties file
         try {
-            getProjectConfiguration(projectName).getKanbanPropertiesFile().renameColumn(workItemType, columnName,
-                newColumnName);
+            getProjectConfiguration(projectName)
+                    .getKanbanPropertiesFile()
+                    .renameColumn(workItemType, columnName, newColumnName);
         } catch (IllegalArgumentException e) {
             return false;
         }
@@ -342,5 +343,4 @@ public class KanbanService {
         }
         return true;
     }
-
 }

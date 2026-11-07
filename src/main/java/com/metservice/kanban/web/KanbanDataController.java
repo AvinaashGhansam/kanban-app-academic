@@ -1,5 +1,8 @@
 package com.metservice.kanban.web;
 
+import com.metservice.kanban.KanbanService;
+import com.metservice.kanban.model.KanbanProjectConfiguration;
+import com.metservice.kanban.model.WorkItemType;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,12 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.metservice.kanban.KanbanService;
-import com.metservice.kanban.model.KanbanProjectConfiguration;
-import com.metservice.kanban.model.WorkItemType;
 
 /**
- * Controller for reading and storing configurations from the CSV data and 
+ * Controller for reading and storing configurations from the CSV data and
  * .properties files for a given project.
  * @author Janella Espinas, Liam O'Connor
  */
@@ -29,11 +29,8 @@ public class KanbanDataController {
     /**
      * Default constructor for KanbanDataController. Initialises its own KanbanService.
      */
-    public KanbanDataController() {
-    }
+    public KanbanDataController() {}
 
-
-    
     /**
      * Populates the Kanban application with a given project name and WorkItemType. This application
      * is then presented on a given server.
@@ -43,13 +40,15 @@ public class KanbanDataController {
      * @throws IOException
      */
     @RequestMapping("download")
-    public void download(@PathVariable("projectName") String projectName, 
-                         @RequestParam("workItemTypeName") String workItemTypeName,
-                         HttpServletResponse response) throws IOException {
-        
+    public void download(
+            @PathVariable("projectName") String projectName,
+            @RequestParam("workItemTypeName") String workItemTypeName,
+            HttpServletResponse response)
+            throws IOException {
+
         KanbanProjectConfiguration configuration = kanbanService.getProjectConfiguration(projectName);
         WorkItemType workItemType = configuration.getWorkItemTypes().getByName(workItemTypeName);
-        
+
         // copies and saves the csv file
         File file = configuration.getDataFile(workItemType);
         response.setContentType("text/csv");

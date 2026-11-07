@@ -2,13 +2,14 @@ package com.metservice.kanban.model;
 
 import static java.util.Collections.unmodifiableCollection;
 import static org.apache.commons.lang.SystemUtils.LINE_SEPARATOR;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-//TODO This class needs more unit tests.
+// TODO This class needs more unit tests.
 
 public class KanbanBoard implements Iterable<KanbanBoardRow> {
 

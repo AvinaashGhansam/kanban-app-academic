@@ -136,6 +136,29 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<!-- Code formatting: run `mvn spotless:apply` to fix; `mvn verify` fails on unformatted code -->
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>3.10.4</version>
+				<configuration>
+					<lineEndings>UNIX</lineEndings>
+					<java>
+						<palantirJavaFormat />
+						<removeUnusedImports />
+						<importOrder />
+						<trimTrailingWhitespace />
+						<endWithNewline />
+					</java>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty.version}</version>
