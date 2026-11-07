@@ -62,9 +62,27 @@ To run the app locally with the Jetty Maven plugin:
 mvn jetty:run
 ```
 
-Then open `http://localhost:8080/kanban`. This uses the `sample/` directory as the Kanban home, which holds a
-`Sample` project. On startup you may see `log4j:ERROR ... /var/log/kanban.log (Permission denied)`. You can ignore it:
+Then open `http://localhost:8080/kanban`. This uses the `sample/` directory as the Kanban home, which holds the
+team's `Academic Team Project Board` project. On startup you may see `log4j:ERROR ... /var/log/kanban.log (Permission denied)`. You can ignore it:
 it only means log4j cannot write its log file to that path.
+
+### The team project board
+
+`sample/Academic Team Project Board` is only a skeleton. Each team member can add cards and make other changes to it
+locally for testing, but **do not commit or push those changes**. The app saves board changes straight into the files
+in that folder, so they show up in `git status`. To have git ignore your local changes to the board, run these once
+from the repository root:
+
+```sh
+# Ignore changes to the skeleton files that are committed
+git ls-files -z "sample/Academic Team Project Board" | xargs -0 git update-index --skip-worktree
+# Ignore the new files the app creates (feature.csv, story.csv, *.temp) in your local clone only
+echo "/sample/Academic Team Project Board/*" >> .git/info/exclude
+```
+
+`.git/info/exclude` works like `.gitignore` but stays on your machine and is never committed. To reset the board to
+the skeleton, run the first command with `--no-skip-worktree`, then
+`git checkout -- "sample/Academic Team Project Board"` and `git clean -fdX "sample/Academic Team Project Board"`.
 
 Or deploy the WAR to a servlet container such as Tomcat or Jetty, then open `http://localhost:8080/kanban`
 (the context path depends on how you deploy it). The first page offers to create a Kanban home directory with a
