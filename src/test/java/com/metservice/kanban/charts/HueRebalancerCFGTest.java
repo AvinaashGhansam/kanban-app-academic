@@ -15,9 +15,7 @@ class HueRebalancerCFGTest {
     private static final double TOLERANCE = 0.0001;
 
     /** Two segments, as used by the application: input halves map to 0.00–0.10 and 0.10–1.00. */
-    private static final double[] TWO_SEGMENTS = {0.00, 0.10, 1.00};
     private static final double[] THREE_SEGMENTS = {0.0, 0.2, 0.5, 1.0};
-    private static final double[] ONE_SEGMENT = {0.0, 1.0};
     private static final double[] ZERO_SEGMENT = {0.5};
 
     // Testing final return value calculation with three segments. This covers the CFG path through the balance method that calculates the final return value.
