@@ -1,7 +1,6 @@
 package com.metservice.kanban.charts;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.within;
 
 import org.junit.jupiter.api.Test;
@@ -101,5 +100,4 @@ class HueRebalancerIdmTest {
 
         assertThat(result).isCloseTo(0.15, within(TOLERANCE));
     }
-
 }
