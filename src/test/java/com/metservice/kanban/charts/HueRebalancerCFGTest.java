@@ -38,7 +38,7 @@ class HueRebalancerCFGTest {
     @Test
     void balance_throwsOnSecondArrayReadWhenThereIsOnlyOneHue_ThrowsArrayIndexOutOfBoundsException() {
         HueRebalancer balancer = new HueRebalancer(ZERO_SEGMENT);
-        
+
         assertThrows(ArrayIndexOutOfBoundsException.class,() -> balancer.balance(0.3));
     }
 }
