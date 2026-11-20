@@ -3,6 +3,7 @@ package com.metservice.kanban.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -152,14 +153,13 @@ class WorkItemTypeTest {
         assertThat(type.hasPhaseAfter(COMPLETED)).isFalse();
     }
 
-    // Expected to fail: known bug WIT-01 (unknown phase reports a following phase)
-    /* Commented out so it does not break the pipeline.
+    @Disabled("documents bug WIT-01")
     @Test
     void hasPhaseAfter_PhaseNotInType_ReturnsFalse() {
         WorkItemType type = makeFourPhaseType();
 
         assertThat(type.hasPhaseAfter(UNKNOWN_PHASE)).isFalse();
-    }*/
+    }
 
     @Test
     void getPhaseAfter_NullPhase_ReturnsFirstPhase() {
@@ -198,14 +198,13 @@ class WorkItemTypeTest {
         assertThatThrownBy(() -> type.getPhaseAfter(null)).isInstanceOf(IllegalArgumentException.class);
     }
 
-    // Expected to fail: known bug WIT-01 (unknown phase silently returns the backlog phase)
-    /* Commented out so it does not break the pipeline.
+    @Disabled("documents bug WIT-01")
     @Test
     void getPhaseAfter_PhaseNotInType_ThrowsIllegalArgumentException() {
         WorkItemType type = makeFourPhaseType();
 
         assertThatThrownBy(() -> type.getPhaseAfter(UNKNOWN_PHASE)).isInstanceOf(IllegalArgumentException.class);
-    }*/
+    }
 
     @Test
     void getBacklogPhase_MultiplePhases_ReturnsFirstPhase() {
@@ -263,23 +262,21 @@ class WorkItemTypeTest {
         assertThatThrownBy(type::getCompletedPhase).isInstanceOf(IndexOutOfBoundsException.class);
     }
 
-    // Expected to fail: known bug WIT-03 (single-phase type crashes instead of returning no wall phases)
-    /* Commented out so it does not break the pipeline.
+    @Disabled("documents bug WIT-03")
     @Test
     void getWallPhases_SinglePhase_ReturnsEmptyList() {
         WorkItemType type = new WorkItemType(BACKLOG);
 
         assertThat(type.getWallPhases()).isEmpty();
-    }*/
+    }
 
-    // Expected to fail: known bug WIT-02 (getWallPhases leaks a mutable view of internal phases)
-    /* Commented out so it does not break the pipeline.
+    @Disabled("documents bug WIT-02")
     @Test
     void getWallPhases_CallerModifiesReturnedList_ThrowsUnsupportedOperationException() {
         WorkItemType type = makeFourPhaseType();
 
         assertThatThrownBy(() -> type.getWallPhases().clear()).isInstanceOf(UnsupportedOperationException.class);
-    }*/
+    }
 
     @Test
     void isPhaseBefore_EarlierThenLaterPhase_ReturnsTrue() {
@@ -302,14 +299,13 @@ class WorkItemTypeTest {
         assertThat(type.isPhaseBefore(IN_PROGRESS, IN_PROGRESS)).isFalse();
     }
 
-    // Expected to fail: known bug WIT-04 (unknown phase is treated as earlier than every real phase)
-    /* Commented out so it does not break the pipeline.
+    @Disabled("documents bug WIT-04")
     @Test
     void isPhaseBefore_FirstPhaseNotInType_ReturnsFalse() {
         WorkItemType type = makeFourPhaseType();
 
         assertThat(type.isPhaseBefore(UNKNOWN_PHASE, BACKLOG)).isFalse();
-    }*/
+    }
 
     @Test
     void isPhaseAfter_LaterThenEarlierPhase_ReturnsTrue() {
@@ -339,14 +335,13 @@ class WorkItemTypeTest {
         assertThat(type.isPhaseAfter(null, null)).isFalse();
     }
 
-    // Expected to fail: known bug WIT-04 (unknown phase makes every real phase compare as after it)
-    /* Commented out so it does not break the pipeline.
+    @Disabled("documents bug WIT-04")
     @Test
     void isPhaseAfter_SecondPhaseNotInType_ReturnsFalse() {
         WorkItemType type = makeFourPhaseType();
 
         assertThat(type.isPhaseAfter(BACKLOG, UNKNOWN_PHASE)).isFalse();
-    }*/
+    }
 
     @Test
     void containsPhase_PhaseInType_ReturnsTrue() {
@@ -400,8 +395,7 @@ class WorkItemTypeTest {
         assertThat(type.hashCode()).isEqualTo(31);
     }
 
-    // Expected to fail: known bug WIT-05 (equals is identity-based while hashCode is name-based)
-    /* Commented out so it does not break the pipeline.
+    @Disabled("documents bug WIT-05")
     @Test
     void equals_DifferentInstancesWithSameNameAndPhases_ReturnsTrue() {
         WorkItemType first = makeFourPhaseType();
@@ -410,5 +404,5 @@ class WorkItemTypeTest {
         second.setName("Feature");
 
         assertThat(first).isEqualTo(second);
-    }*/
+    }
 }
