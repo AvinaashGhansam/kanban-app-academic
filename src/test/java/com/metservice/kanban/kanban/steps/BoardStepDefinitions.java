@@ -31,7 +31,8 @@ public class BoardStepDefinitions {
     @Before
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        //options.addArguments("--headless=new");
+        // comment the line below to see browser
+        options.addArguments("--headless=new");
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
     }
@@ -115,7 +116,7 @@ public class BoardStepDefinitions {
 
     @Then("the feature {string} should appear on the board")
     public void the_feature_should_appear_on_the_board(String title) {
-        
+
         // Wait for the board to refresh and check if the new title text is rendered
         boolean isPresent = wait.until(driver -> driver.getPageSource().contains(title));
         assertTrue(isPresent, "Expected to find feature '" + title + "' on the Kanban board.");
