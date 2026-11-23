@@ -1,7 +1,7 @@
 Feature: Kanban Board Management
   As a project team member
   I want to add a new feature to the Kanban board
-  So that I can track tasks across workflow stages
+  So that I can visualize and track progress across workflow stages
 
   Scenario: Add a new feature to the board
     Given the Kanban board is open
