@@ -1,12 +1,13 @@
 package com.metservice.kanban.utils;
 
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.joda.time.LocalDate;
-import org.junit.jupiter.api.Test;
 
 /**
- *
+ * 
  * Test names follow Roy Osherove's convention:
  * UnitOfWork_StateUnderTest_ExpectedBehavior.
  */
