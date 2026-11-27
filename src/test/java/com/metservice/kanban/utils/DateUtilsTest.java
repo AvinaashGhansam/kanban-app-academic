@@ -1,10 +1,10 @@
 package com.metservice.kanban.utils;
 
-import java.util.function.Supplier;
-import java.util.stream.Stream;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.junit.jupiter.api.Disabled;
