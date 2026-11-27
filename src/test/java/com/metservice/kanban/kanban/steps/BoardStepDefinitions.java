@@ -16,7 +16,8 @@ public class BoardStepDefinitions {
     @Then("the feature {string} should appear on the board")
     public void the_feature_should_appear_on_the_board(String title) {
         // Wait for the board to refresh and check if the new title text is rendered
-        boolean isPresent = browser.await().until(driver -> driver.getPageSource().contains(title));
+        boolean isPresent =
+                browser.await().until(driver -> driver.getPageSource().contains(title));
         assertTrue(isPresent, "Expected to find feature '" + title + "' on the Kanban board.");
     }
 }

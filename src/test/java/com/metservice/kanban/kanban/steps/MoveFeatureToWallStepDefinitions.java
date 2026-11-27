@@ -2,11 +2,10 @@ package com.metservice.kanban.kanban.steps;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /** Steps for move_feature_to_wall.feature; the shared Given/When live in {@link CommonBoardSteps}. */
 public class MoveFeatureToWallStepDefinitions {

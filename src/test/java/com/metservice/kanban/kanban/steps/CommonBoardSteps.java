@@ -1,14 +1,13 @@
 package com.metservice.kanban.kanban.steps;
 
+import io.cucumber.java.After;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import io.cucumber.java.After;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
 
 /** Steps used by more than one browser feature, plus the browser teardown hook. */
 public class CommonBoardSteps {
@@ -38,22 +37,24 @@ public class CommonBoardSteps {
     public void i_create_a_new_feature_titled(String title) {
         WebDriverWait wait = browser.await();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("add-top-level-item-button"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("add-top-level-item-button")))
+                .click();
 
         fill(wait, "name", title);
         fill(wait, "averageCaseEstimate", "10");
         fill(wait, "worstCaseEstimate", "20");
         fill(wait, "importance", "100");
 
-        WebElement workStreamInput = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(
-                "#workStreamsSelect .tagit-new input, [name='workStreamsSelect'] .tagit-new input")));
+        WebElement workStreamInput = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("#workStreamsSelect .tagit-new input, [name='workStreamsSelect'] .tagit-new input")));
         workStreamInput.click();
         workStreamInput.sendKeys("WorkStream1");
         workStreamInput.sendKeys(Keys.ENTER);
 
         fill(wait, "notes", "Feature created by an automated cucumber test");
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("save-button"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.id("save-button")))
+                .click();
         wait.until(d -> d.getPageSource().contains(title));
     }
 
