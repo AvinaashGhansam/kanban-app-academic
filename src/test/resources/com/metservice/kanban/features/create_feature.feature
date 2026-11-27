@@ -1,3 +1,4 @@
+@ui
 Feature: Kanban Board Management
   As a project team member
   I want to add a new feature to the Kanban board

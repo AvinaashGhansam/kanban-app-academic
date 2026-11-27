@@ -1,3 +1,4 @@
+@ui
 Feature: Move feature to wall
 
   Scenario: Move a feature from backlog to wall
