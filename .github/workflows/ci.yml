@@ -34,3 +34,42 @@ jobs:
           name: surefire-reports
           path: target/surefire-reports/
           if-no-files-found: ignore
+
+  ui-test:
+    # Teammates' browser scenarios (@ui): start the app, then drive headless Chrome against it
+    name: UI tests (Cucumber @ui)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      # Compile everything first so the test run below doesn't rewrite target/ under the running app
+      - name: Compile
+        run: mvn -B test-compile
+
+      - name: Start the app
+        run: |
+          nohup mvn -B jetty:run > jetty.log 2>&1 &
+          for i in $(seq 1 90); do
+            if curl -sf -o /dev/null http://localhost:8080/kanban; then echo "App is up"; exit 0; fi
+            sleep 2
+          done
+          echo "App did not start"; tail -100 jetty.log; exit 1
+
+      - name: Run UI scenarios
+        run: mvn -B test -Dtest=RunCucumberTest -Dcucumber.filter.tags=@ui -Dsurefire.failIfNoSpecifiedTests=false
+
+      - name: Upload UI test reports and app log
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ui-test-reports
+          path: |
+            target/surefire-reports/
+            jetty.log
+          if-no-files-found: ignore

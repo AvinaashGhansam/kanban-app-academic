@@ -16,6 +16,15 @@ public class BrowserSession {
 
     private WebDriver driver;
     private WebDriverWait wait;
+    private String lastCreatedTitle;
+
+    String lastCreatedTitle() {
+        return lastCreatedTitle;
+    }
+
+    void setLastCreatedTitle(String title) {
+        this.lastCreatedTitle = title;
+    }
 
     public WebDriver driver() {
         if (driver == null) {

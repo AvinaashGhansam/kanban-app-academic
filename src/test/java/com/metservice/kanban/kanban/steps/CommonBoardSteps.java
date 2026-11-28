@@ -56,6 +56,16 @@ public class CommonBoardSteps {
         wait.until(ExpectedConditions.elementToBeClickable(By.id("save-button")))
                 .click();
         wait.until(d -> d.getPageSource().contains(title));
+        browser.setLastCreatedTitle(title);
+    }
+
+    /** Title passed to the most recent "I create a new feature titled" step in this scenario. */
+    static String lastCreatedTitle(BrowserSession browser) {
+        String title = browser.lastCreatedTitle();
+        if (title == null) {
+            throw new IllegalStateException("No feature was created earlier in this scenario");
+        }
+        return title;
     }
 
     private static void fill(WebDriverWait wait, String fieldName, String value) {
